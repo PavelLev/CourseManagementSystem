@@ -1,0 +1,24 @@
+@font-face {
+	font-family: 'MaterialIcons-Regular';
+	src:url('fonts/MaterialIcons-Regular.eot?9t38ym');
+	src:url('fonts/MaterialIcons-Regular.eot?#iefix9t38ym') format('embedded-opentype'),
+		url('../fonts/MaterialIcons-Regular.ttf?9t38ym') format('truetype'),
+		url('fonts/MaterialIcons-Regular.woff?9t38ym') format('woff'),
+		url('fonts/MaterialIcons-Regular.svg?9t38ym#pixellove-ios') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+i {
+	font-family: 'MaterialIcons-Regular';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
