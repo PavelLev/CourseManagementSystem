@@ -19,7 +19,7 @@ namespace CourseManagmentSystem.DAL
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
+           // modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }
