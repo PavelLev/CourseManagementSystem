@@ -7,9 +7,12 @@ namespace CourseManagmentSystem.Models
 {
     public class User
     {
-        private string name, password, email;
-        private List<Course> hosted;
+        public int UserID { get; set; }
+        public string name { get; set; }
+        public string password { get; set; }
+        public string email { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+        public virtual ICollection<Course> Hostings { get; set; }
 
-        private List<Course> subscriptions;
     }
 }

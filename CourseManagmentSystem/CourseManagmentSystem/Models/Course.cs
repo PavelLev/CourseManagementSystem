@@ -7,9 +7,12 @@ namespace CourseManagmentSystem.Models
 {
     public class Course
     {
-        private string name, description;
-        private User lecturer;
-        private List<CourseProgress> subscribers;
-        private List<Lesson> lessons;
+        public int CourseID { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+        public virtual User Lecturer { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
     }
 }
