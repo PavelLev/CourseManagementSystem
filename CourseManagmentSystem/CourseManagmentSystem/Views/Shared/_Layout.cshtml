@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNet.Identity
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -7,18 +9,62 @@
     <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap-space.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.6.2.js"></script>
+    <script src="~/Controllers/AccountController.cs"></script>
+    <script src="~/Controllers/HomeController.cs"></script>
+    <script src="~/Controllers/UsersController.cs"></script>
 </head>
 <body>
-    @Html.Partial("_NavBar")
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+
+                @Html.ActionLink("CMS", "Index", "Home", new {area = ""}, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    @{
+                        if (Request.IsAuthenticated)
+                        {
+                            <li>
+                                @Html.ActionLink("Log out", "LogOut", "Account")
+                            </li>
+                            <li>
+                                @Html.ActionLink(User.Identity.Name, "Details", "Users", new { id = User.Identity.GetUserId() }, null)
+                            </li>
+
+                        }
+                        else
+                        {
+                            <li>
+                                @Html.ActionLink("Log in", "LogIn", "Account", new { returnUrl = Request.Url }, null)
+                            </li>
+                            <li>
+                                @Html.ActionLink("Sign up", "Register", "Account")
+                            </li>
+                        } }
+                </ul>
+            </div>
+        </div>
+    </div>
+
     <div class="container body-content">
-        @RenderBody()
-        <hr />
+       
+         @RenderBody()
+       
+         <hr />
         <footer>
             <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 
-    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/scripts/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
