@@ -1,18 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CourseManagmentSystem.Models
 {
-    public class User
+    public class User : IdentityUser
     {
-        public int UserID { get; set; }
-        public string name { get; set; }
-        public string password { get; set; }
-        public string email { get; set; }
+        public string Name { get; set; }
+        public override string Email { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Course> Hostings { get; set; }
+
+        public User()
+        {
+        }
 
     }
 }

@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNet.Identity
+@model CourseManagmentSystem.Models.User
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<div class="row" style="margin:0px;">
+    <div class="col-sm-3">
+        <h2 style="padding-top:10px;">My Profile</h2>
+    </div>
+    <div class="col-sm-5" style="padding-top: 20px;">
+    </div>
+    <div class="col-sm-4" style="padding-top: 15px;">
+        <dl class="dl-horizontal" style="margin-bottom:5px;">
+
+            <dt>
+                Username
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+            </dt>
+
+            <dd>
+                @Html.ActionLink("Edit", "Edit", new { id = User.Identity.GetUserId() })
+                @Html.ActionLink("Delete","Delete")
+            </dd>
+            
+        </dl>
+    </div>
+</div>
+<hr style="margin-top:0px;" />
+<div class="container container-fluid">
+    <div class="row">
+        <div class="col-sm-3">
+            <div class="list-group">
+                <a href="#" class="list-group-item active">
+                    Subscriptions
+                </a>
+                <a @*href="@Url.Action("HostedCourses", "User", new { id = Model.UserID })" class="list-group-item"*@>
+                    My courses
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            @foreach (var enrollment in Model.Enrollments)
+            {
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="panel panel-primary">
+                            <div class="panel-heading">
+                                <h3 class="panel-title">@Html.DisplayFor(model => enrollment.Course.name)</h3>
+                            </div>
+                            <div class="panel-body">
+
+                                <p>@Html.DisplayFor(model => enrollment.Course.description)</p>
+                                <a href="#" class="btn btn-info">More</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>
+
+
