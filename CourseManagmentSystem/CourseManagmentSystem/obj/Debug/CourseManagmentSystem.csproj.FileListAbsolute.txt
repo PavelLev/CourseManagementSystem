@@ -216,7 +216,6 @@ C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseM
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\System.Web.Optimization.dll
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\WebActivatorEx.dll
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\WebGrease.dll
-C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\WisdomCloud.Identity.dll
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\Antlr3.Runtime.pdb
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\Microsoft.AspNet.Identity.Core.xml
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\bin\Microsoft.AspNet.Identity.EntityFramework.xml

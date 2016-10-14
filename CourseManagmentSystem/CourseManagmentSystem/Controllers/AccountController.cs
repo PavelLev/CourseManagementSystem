@@ -17,6 +17,7 @@ namespace CourseManagmentSystem.Controllers
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IAuthenticationManager AuthentictionManager => HttpContext.GetOwinContext().Authentication;
 
+        
         public ActionResult Register()
         {
             return View();
@@ -48,9 +49,10 @@ namespace CourseManagmentSystem.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        
         public ActionResult LogIn(string returnUrl)
         {
+            ViewBag.returnUrl = returnUrl;
             return View();
         }
 

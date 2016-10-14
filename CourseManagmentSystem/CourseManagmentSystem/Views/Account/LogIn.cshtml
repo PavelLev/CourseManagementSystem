@@ -3,13 +3,11 @@
 
 @{
     ViewBag.Title = "LogIn";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <h2>LogIn</h2>
 
-@using (Html.BeginForm("LogIn", "Account"))
+@using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
 

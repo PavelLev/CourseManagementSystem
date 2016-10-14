@@ -3,8 +3,6 @@
 
 @{
     ViewBag.Title = "Delete";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
 }
 
 <h2>Delete</h2>
@@ -18,7 +16,7 @@
 
         <div class="form-actions no-color">
             <form method="post">
-                <input type="submit" value="Delete" class="btn btn-danger" /> |
+                <input type="submit" value="Delete" class="btn btn-danger" /> 
                 @Html.ActionLink("Return", "Details", new { id = User.Identity.GetUserId() }, new {@class="btn btn-info"})
             </form>
         </div>
