@@ -37,7 +37,7 @@
                                 @Html.ActionLink("Log out", "LogOut", "Account")
                             </li>
                             <li>
-                                @Html.ActionLink(User.Identity.Name, "Details", "Users", new { id = User.Identity.GetUserId() }, null)
+                                @Html.ActionLink(User.Identity.GetUserName(), "Details", "Users", new { id = User.Identity.GetUserId() }, null)
                             </li>
 
                         }

@@ -28,24 +28,22 @@ namespace CourseManagmentSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
+            var result = await UserManager.CreateAsync(user, model.Password);
+            if (result.Succeeded)
             {
-                var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                AuthentictionManager.SignOut();
+                AuthentictionManager.SignIn(new AuthenticationProperties()
                 {
-                    var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthentictionManager.SignOut();
-                    AuthentictionManager.SignIn(new AuthenticationProperties()
-                    {
-                        IsPersistent = true
-                    }, claim);
+                    IsPersistent = true
+                }, claim);
 
-                    return RedirectToAction("Details", "Users", new { id = user.Id });
-                }
-                else
-                    result.Errors.ForEach(err => ModelState.AddModelError("", err));
+                return RedirectToAction("Details", "Users", new { id = user.Id });
             }
+            else
+                result.Errors.ForEach(err => ModelState.AddModelError("", err));
             return View(model);
         }
 

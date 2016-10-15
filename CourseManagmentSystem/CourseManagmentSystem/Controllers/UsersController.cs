@@ -10,6 +10,7 @@ using System.Web.Mvc;
 using CourseManagmentSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -17,6 +18,7 @@ namespace CourseManagmentSystem.Controllers
     {
         private AppDbContext db = new AppDbContext();
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        private IAuthenticationManager AuthentictionManager => HttpContext.GetOwinContext().Authentication;
 
         // GET: Users
         public ActionResult Index()
@@ -31,7 +33,7 @@ namespace CourseManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            User user = db.Users.Find(id);
+            var user = db.Users.Find(id);
             if (user == null)
             {
                 return HttpNotFound();
@@ -43,13 +45,9 @@ namespace CourseManagmentSystem.Controllers
         public async Task<ActionResult> Edit()
         {
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user != null)
-            {
-                var model = new EditModel {Name = user.Name, Email = user.Email};
-                return View(model);
-            }
-            
-            return RedirectToAction("LogIn","Account");
+            if (user == null) return RedirectToAction("LogIn", "Account");
+            var model = new EditModel {Name = user.Name, Email = user.Email};
+            return View(model);
         }
 
 
@@ -57,28 +55,33 @@ namespace CourseManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid) return View(model);
+            var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
+            if (user != null)
             {
-                var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-                if (user != null)
+                user.Name = model.Name;
+                user.Email = model.Email;
+                user.UserName = model.Email;
+                var result = await UserManager.UpdateAsync(user);
+                if (result.Succeeded)
                 {
-                    user.Name = model.Name;
-                    user.Email = model.Email;
-                    user.UserName = model.Email;
-                    var result = await UserManager.UpdateAsync(user);
-                    if (result.Succeeded)
+                    var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                    AuthentictionManager.SignOut();
+                    AuthentictionManager.SignIn(new AuthenticationProperties()
                     {
-                        return RedirectToAction("Details", "Users", new {id = User.Identity.GetUserId()});
-                    }
-                    else
-                    {
-                        ModelState.AddModelError("","Something went wrong...");
-                    }
+                        IsPersistent = true
+                    }, claim);
+
+                    return RedirectToAction("Details", "Users", new {id = User.Identity.GetUserId()});
                 }
                 else
                 {
-                    ModelState.AddModelError("","User is not find");
+                    ModelState.AddModelError("","Something went wrong...");
                 }
+            }
+            else
+            {
+                ModelState.AddModelError("","User is not find");
             }
             return View(model);
         }
@@ -95,15 +98,9 @@ namespace CourseManagmentSystem.Controllers
         public async Task<ActionResult> DeleteConfirmed()
         {
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user != null)
-            {
-                var result = await UserManager.DeleteAsync(user);
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("LogOut", "Account");
-                }
-            }
-            return RedirectToAction("Index","Home");
+            if (user == null) return RedirectToAction("Index", "Home");
+            var result = await UserManager.DeleteAsync(user);
+            return result.Succeeded ? RedirectToAction("LogOut", "Account") : RedirectToAction("Index","Home");
         }
 
         protected override void Dispose(bool disposing)
