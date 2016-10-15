@@ -34,6 +34,9 @@
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
                 @Html.ActionLink("Return", "Details", new {id = User.Identity.GetUserId() }, new { @class = "btn btn-info" })
+                <p>
+                    <a href="@Url.Action("Delete", "Users", new { id = User.Identity.GetUserId() })" class="btn btn-default">Delete account</a>
+                </p>
             </div>
             
         </div>

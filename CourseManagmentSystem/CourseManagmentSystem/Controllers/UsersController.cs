@@ -114,5 +114,19 @@ namespace CourseManagmentSystem.Controllers
             }
             base.Dispose(disposing);
         }
+        public ActionResult Profile(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+        
     }
 }

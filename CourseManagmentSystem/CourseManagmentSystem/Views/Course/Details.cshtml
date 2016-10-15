@@ -1,0 +1,29 @@
+﻿@model CourseManagmentSystem.Models.Course
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div>
+    <h3>@Html.DisplayFor(model => model.name)</h3>
+    @Html.DisplayFor(model => model.description)
+    <hr />
+    <a href="#" class="btn btn-info">Subscribe</a>
+    <hr />
+    <ul class="list-group">
+        
+        <a href="#" class="list-group-item">Lesson 1</a>
+        <a href="#" class="list-group-item">- Questionary 1</a>
+        
+        <a href="#" class="list-group-item">Lesson 2</a>
+        <a href="#" class="list-group-item">- Questionary 2</a>
+
+        <a href="#" class="list-group-item">Lesson 3</a>
+        <a href="#" class="list-group-item">- Questionary 3</a>
+        
+    </ul>
+</div>
+<p>
+    @Html.ActionLink("Home", "Index", "Home") 
+</p>

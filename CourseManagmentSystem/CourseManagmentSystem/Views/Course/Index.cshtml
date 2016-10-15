@@ -1,0 +1,29 @@
+﻿@model IEnumerable<CourseManagmentSystem.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>(Something informative)</h2>
+
+@foreach (var course in Model)
+{
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Html.DisplayFor(model => course.name)</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height: 100px;  overflow: hidden">
+                    <p>@Html.DisplayFor(model => course.description)</p>
+                </div>
+                <br />
+                <a href="#" class="btn btn-info">More</a>
+            </div>
+        </div>
+    </div>
+
+}
+
+
