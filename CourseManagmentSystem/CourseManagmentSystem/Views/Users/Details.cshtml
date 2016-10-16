@@ -1,9 +1,8 @@
 ﻿@using Microsoft.AspNet.Identity
 @model CourseManagmentSystem.Models.User
-
 @{
-    ViewBag.Title = "Details";
-
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <div class="row" style="margin:0px;">
@@ -35,49 +34,83 @@
 
             <dd>
                 @Html.ActionLink("Edit", "Edit", new { id = User.Identity.GetUserId() })
-                @Html.ActionLink("Delete","Delete")
             </dd>
-            
         </dl>
     </div>
 </div>
-<hr style="margin-top:0px;" />
-<div class="container container-fluid">
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="list-group">
-                <a href="#" class="list-group-item active">
-                    Subscriptions
-                </a>
-                <a @*href="@Url.Action("HostedCourses", "User", new { id = Model.UserID })" class="list-group-item"*@>
-                    My courses
-                </a>
-            </div>
-        </div>
-        <div class="col-sm-9">
-            @foreach (var enrollment in Model.Enrollments)
-            {
-                <div class="row">
-                    <div class="col-sm-12">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">@Html.DisplayFor(model => enrollment.Course.name)</h3>
-                            </div>
-                            <div class="panel-body">
 
-                                <p>@Html.DisplayFor(model => enrollment.Course.description)</p>
-                                <a href="#" class="btn btn-info">More</a>
-                            </div>
+
+
+<ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li class="active"><a href="#subscriptions" data-toggle="tab" aria-expanded="true">Subscriptions</a></li>
+    <li class=""><a href="#mycourses" data-toggle="tab" aria-expanded="false">My courses</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="subscriptions">
+
+        @foreach (var enrollment in Model.Enrollments)
+        {
+            <div class="col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => enrollment.Course.name)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="height: 100px;  overflow: hidden">
+                            <p>@Html.DisplayFor(model => enrollment.Course.description)</p>
                         </div>
+                        <br />
+                        <a href="#" class="btn btn-info">More</a>
                     </div>
                 </div>
-            }
+            </div>
+
+        }
+
+    </div>
+    <div class="tab-pane fade" id="mycourses">
+        @foreach (var course in Model.Hostings)
+        {
+            <div class="col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => course.name)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="height: 100px;  overflow: hidden">
+                            <p>@Html.DisplayFor(model => course.description)</p>
+                        </div>
+                        <br />
+                        <a href="#" class="btn btn-info">More</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">New course</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 100px;  overflow: hidden">
+                        <p></p>
+                    </div>
+                    <br />
+                    <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
+
+
+<br style="clear: both;">
 <p>
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Delete", "Users", new { id = User.Identity.GetUserId() })" class="btn btn-default">Delete account</a>
 </p>
 
-
+<script src="~/scripts/bootstrap.min.js"></script>
+<script src="~/scripts/jquery-3.1.1.min.js"></script>
