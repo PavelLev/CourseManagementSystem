@@ -33,7 +33,8 @@
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Save" class="btn btn-default" />
-                @Html.ActionLink("Return", "Details", new {id = User.Identity.GetUserId() }, new { @class = "btn btn-info" })
+                <a href="javascript:void(0);" onclick="history.go(-1);" class="btn btn-info">Return</a>
+                
             </div>
             
         </div>

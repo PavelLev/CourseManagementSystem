@@ -72,7 +72,7 @@ namespace CourseManagmentSystem.Controllers
                         IsPersistent = true
                     }, claim);
 
-                    return RedirectToAction("Details", "Users", new {id = User.Identity.GetUserId()});
+                    return RedirectToAction("Index", "Home");
                 }
                 else
                 {
@@ -110,6 +110,32 @@ namespace CourseManagmentSystem.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+        public ActionResult Subscriptions(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
+        }
+        public ActionResult Hostings(string id)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            return View(user);
         }
     }
 }

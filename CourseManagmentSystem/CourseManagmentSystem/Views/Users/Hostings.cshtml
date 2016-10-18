@@ -1,0 +1,73 @@
+﻿@model CourseManagmentSystem.Models.User
+@{
+    ViewBag.Title = "Subscriptions";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin:0px;">
+    <div class="col-sm-3">
+        <h2 style="padding-top:10px;">My Courses</h2>
+    </div>
+    <div class="col-sm-5" style="padding-top: 20px;">
+    </div>
+    <div class="col-sm-4" style="padding-top: 15px;">
+        <dl class="dl-horizontal" style="margin-bottom:5px;">
+
+            <dt>
+                Username
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+
+
+@foreach (var course in Model.Hostings)
+{
+    <div class="col-sm-3">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">@Html.DisplayFor(model => course.name)</h3>
+            </div>
+            <div class="panel-body">
+                <div style="height: 100px;  overflow: hidden">
+                    <p>@Html.DisplayFor(model => course.description)</p>
+                </div>
+                <br />
+                <a href="#" class="btn btn-info">More</a>
+            </div>
+        </div>
+    </div>
+
+}
+
+<div class="col-sm-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">New course</h3>
+        </div>
+        <div class="panel-body">
+            <div style="height: 100px;  overflow: hidden">
+                <p></p>
+            </div>
+            <br />
+            <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
+        </div>
+    </div>
+</div>
+
+<br style="clear: both;">
+
+

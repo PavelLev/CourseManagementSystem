@@ -40,7 +40,7 @@ namespace CourseManagmentSystem.Controllers
                     IsPersistent = true
                 }, claim);
 
-                return RedirectToAction("Details", "Users", new { id = user.Id });
+                return RedirectToAction("Index", "Home");
             }
             else
                 result.Errors.ForEach(err => ModelState.AddModelError("", err));
@@ -89,7 +89,7 @@ namespace CourseManagmentSystem.Controllers
         public ActionResult LogOut()
         {
             AuthentictionManager.SignOut();
-            return RedirectToAction("LogIn", "Account");
+            return RedirectToAction("Index", "Home");
         }
 
     }
