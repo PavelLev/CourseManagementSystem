@@ -13,6 +13,7 @@
     <ProjectView>ShowAllFiles</ProjectView>
     <IISExpressSSLPort>44338</IISExpressSSLPort>
     <WebStackScaffolding_ViewDialogWidth>600</WebStackScaffolding_ViewDialogWidth>
+    <NameOfLastUsedPublishProfile>CourseManagementSystem</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <ProjectExtensions>
     <VisualStudio>

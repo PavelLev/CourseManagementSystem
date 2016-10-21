@@ -284,6 +284,7 @@
     <Content Include="ClassDiagram1.cd" />
     <Content Include="scripts\bootstrap.js" />
     <Content Include="scripts\bootstrap.min.js" />
+    <None Include="Properties\PublishProfiles\CourseManagementSystem.pubxml" />
     <None Include="scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="scripts\jquery-1.10.2.js" />
     <Content Include="scripts\jquery-1.10.2.min.js" />
@@ -302,6 +303,8 @@
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\modernizr-2.8.3.js" />
+    <Content Include="SignalR\Scripts\EditUser.js" />
+    <Content Include="SignalR\Scripts\_Layout.js" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -315,6 +318,12 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="SignalR\Hubs\MyHub.cs" />
+    <Compile Include="Migrations\201610211141377_MigrateDB.cs" />
+    <Compile Include="Migrations\201610211141377_MigrateDB.Designer.cs">
+      <DependentUpon>201610211141377_MigrateDB.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -363,6 +372,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201610211141377_MigrateDB.resx">
+      <DependentUpon>201610211141377_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

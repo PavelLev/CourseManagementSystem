@@ -14,6 +14,7 @@ namespace CourseManagmentSystem.Controllers
 {
     public class AccountController : Controller
     {
+        private AppDbContext db = new AppDbContext();
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IAuthenticationManager AuthentictionManager => HttpContext.GetOwinContext().Authentication;
 

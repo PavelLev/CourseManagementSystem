@@ -11,7 +11,8 @@ using CourseManagmentSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using  Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.SignalR.Hubs;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -60,6 +61,12 @@ namespace CourseManagmentSystem.Controllers
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
             if (user != null)
             {
+                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
+                    .Clients.Clients(MyHub.groups[user.UserName])
+                    .updateTopEmail(model.Email);
+                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
+                    .Clients.Clients(MyHub.groups[user.UserName])
+                    .updateEditData(model.Name, model.Email);
                 user.Name = model.Name;
                 user.Email = model.Email;
                 user.UserName = model.Email;
@@ -72,7 +79,6 @@ namespace CourseManagmentSystem.Controllers
                     {
                         IsPersistent = true
                     }, claim);
-
                     return RedirectToAction("Index", "Home");
                 }
                 else
