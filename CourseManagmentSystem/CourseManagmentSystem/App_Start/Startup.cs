@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Owin;
+
 [assembly: OwinStartup(typeof(CourseManagmentSystem.Startup))]
 
 namespace CourseManagmentSystem
@@ -25,6 +26,7 @@ namespace CourseManagmentSystem
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login"),
             });
+            app.MapSignalR();
         }
     }
 }

@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CourseManagmentSystem.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -27,7 +28,7 @@ namespace CourseManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            var course = db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -48,14 +49,20 @@ namespace CourseManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "CourseID,name,description")] Course course)
         {
-            if (ModelState.IsValid)
-            {
-                db.Courses.Add(course);
-                db.SaveChanges();
-                return RedirectToAction("Index", "Home");
-            }
+            course.UserId = User.Identity.GetUserId();
+            if (!ModelState.IsValid) return View(course);
+            db.Courses.Add(course);
+            db.SaveChanges();
+            return RedirectToAction("Index", "Home");
+        }
 
-            return View(course);
+        public ActionResult Subscribe(int courseId)
+        {
+            var enrollment = new Enrollment {UserId = User.Identity.GetUserId(), CourseId = courseId};
+            db.Enrollments.Add(enrollment);
+            db.SaveChanges();
+            return RedirectToAction("Details",new {id = courseId});
+
         }
 
         // GET: Course/Edit/5
@@ -65,7 +72,7 @@ namespace CourseManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Course course = db.Courses.Find(id);
+            var course = db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
@@ -80,13 +87,10 @@ namespace CourseManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseID,name,description")] Course course)
         {
-            if (ModelState.IsValid)
-            {
-                db.Entry(course).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Details");
-            }
-            return View(course);
+            if (!ModelState.IsValid) return View(course);
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+            return RedirectToAction("Details");
         }
 
         // GET: Course/Delete/5

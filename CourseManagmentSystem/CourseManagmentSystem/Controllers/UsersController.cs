@@ -11,6 +11,7 @@ using CourseManagmentSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using  Microsoft.AspNet.SignalR;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -131,10 +132,6 @@ namespace CourseManagmentSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
-            if (user == null)
-            {
-                return HttpNotFound();
-            }
             return View(user);
         }
     }

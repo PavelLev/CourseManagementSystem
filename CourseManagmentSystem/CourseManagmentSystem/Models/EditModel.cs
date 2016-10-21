@@ -9,7 +9,7 @@ namespace CourseManagmentSystem.Models
     public class EditModel
     {
         [Required]
-        [Display(Name = "Email")]
+        [Display(Name = "Name")]
         public string Name { get; set; }
         [Required]
         [Display(Name = "Email")]

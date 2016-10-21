@@ -20,11 +20,14 @@ namespace CourseManagmentSystem.Controllers
         
         public ActionResult Register()
         {
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index","Home");
+            }
             return View();
         }
 
         [ValidateAntiForgeryToken]
-        [AllowAnonymous]
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
