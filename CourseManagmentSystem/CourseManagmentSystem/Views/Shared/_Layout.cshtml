@@ -39,33 +39,36 @@
                         if (Request.IsAuthenticated)
                         {
                             <li>
-                                <a href="@Url.Action( "Subscriptions", "Users", new { id = User.Identity.GetUserId() })">My subscriptions</a>
+                                @Html.ActionLink("My subscriptions", "Subscriptions", "Users", new { id = User.Identity.GetUserId() }, null)
 
                             </li>
                             <li>
-                                <a href="@Url.Action( "Hostings", "Users", new { id = User.Identity.GetUserId() })">My courses</a>
+                                @Html.ActionLink("My courses", "Hostings", "Users", new { id = User.Identity.GetUserId() }, null)
                             </li>
                             <li class="dropdown">
                                 <a id="topEmail" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">@User.Identity.GetUserName() <span class="caret"></span></a>
                                 <ul class="dropdown-menu" role="menu">
-                                    <li><a href="@Url.Action("Edit", "Users", new { id = User.Identity.GetUserId() })">Edit</a></li>
-                                    <li><a href="@Url.Action("Delete", "Users", new { id = User.Identity.GetUserId()})">Delete</a></li>
+                                    <li>
+                                        @Html.ActionLink("Edit", "Edit", "Users", new { id = User.Identity.GetUserId() }, null)
+                                    </li>
+                                    <li>
+                                        @Html.ActionLink("Delete", "Delete", "Users", new { id = User.Identity.GetUserId() }, null)
+                                    </li>
                                     <li class="divider"></li>
-                                    <li><a href="@Url.Action("LogOut", "Account")">Log Out</a></li>
+                                    <li>
+                                        @Html.ActionLink("Log out", "LogOut", "Account", null, new { id = "LogOutButton" })
+                                    </li>
                                 </ul>
                             </li>
                         }
                         else
                         {
-
-
-
                             <li>
                                 @Html.ActionLink("Log in", "LogIn", "Account", new { returnUrl = Request.Url }, null)
                             </li>
                             <li>
                                 @Html.ActionLink("Sign up", "Register", "Account")
-                        </li>
+                            </li>
                         }
                     }
                 </ul>

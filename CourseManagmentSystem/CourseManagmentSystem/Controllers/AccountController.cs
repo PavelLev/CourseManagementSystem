@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using CourseManagmentSystem.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Security;
 using WebGrease.Css.Extensions;
 using static System.String;
@@ -27,9 +28,9 @@ namespace CourseManagmentSystem.Controllers
             }
             return View();
         }
-
-        [ValidateAntiForgeryToken]
+        
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -44,6 +45,8 @@ namespace CourseManagmentSystem.Controllers
                     IsPersistent = true
                 }, claim);
 
+                ReloadBrowserTabs();
+
                 return RedirectToAction("Index", "Home");
             }
             else
@@ -54,6 +57,10 @@ namespace CourseManagmentSystem.Controllers
         
         public ActionResult LogIn(string returnUrl)
         {
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             ViewBag.returnUrl = returnUrl;
             return View();
         }
@@ -79,6 +86,8 @@ namespace CourseManagmentSystem.Controllers
                         IsPersistent = true
                     }, claim);
 
+                    ReloadBrowserTabs();
+
                     if (IsNullOrEmpty(returnUrl))
                         return RedirectToAction("Index", "Home");
 
@@ -93,7 +102,17 @@ namespace CourseManagmentSystem.Controllers
         public ActionResult LogOut()
         {
             AuthentictionManager.SignOut();
+
+            ReloadBrowserTabs();
+
             return RedirectToAction("Index", "Home");
+        }
+
+        void ReloadBrowserTabs()
+        {
+            GlobalHost.ConnectionManager.GetHubContext<MyHub>()
+                .Clients.Clients(MyHub.GetConnections(Request.Cookies["__RequestVerificationToken"].Value))
+                .reload();
         }
 
     }

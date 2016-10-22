@@ -22,12 +22,6 @@ namespace CourseManagmentSystem.Controllers
         private ApplicationUserManager UserManager => HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         private IAuthenticationManager AuthentictionManager => HttpContext.GetOwinContext().Authentication;
 
-        // GET: Users
-        public ActionResult Index()
-        {
-            return View(db.Users.ToList());
-        }
-
         // GET: Users/Details/5
         public ActionResult Details(string id)
         {
@@ -47,7 +41,8 @@ namespace CourseManagmentSystem.Controllers
         public async Task<ActionResult> Edit()
         {
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user == null) return RedirectToAction("LogIn", "Account");
+            if (user == null)
+                return RedirectToAction("LogIn", "Account");
             var model = new EditModel {Name = user.Name, Email = user.Email};
             return View(model);
         }
@@ -61,12 +56,10 @@ namespace CourseManagmentSystem.Controllers
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
             if (user != null)
             {
-                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
-                    .Clients.Clients(MyHub.groups[user.UserName])
-                    .updateTopEmail(model.Email);
-                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
-                    .Clients.Clients(MyHub.groups[user.UserName])
-                    .updateEditData(model.Name, model.Email);
+                var hubClients = GlobalHost.ConnectionManager.GetHubContext<MyHub>().Clients;
+                hubClients.User(User.Identity.Name).updateTopEmail(model.Email);
+                hubClients.User(User.Identity.Name).updateEditData(model.Name, model.Email);
+
                 user.Name = model.Name;
                 user.Email = model.Email;
                 user.UserName = model.Email;
@@ -94,9 +87,12 @@ namespace CourseManagmentSystem.Controllers
         }
 
         [HttpGet]
-        public ActionResult Delete()
+        public async Task<ActionResult> Delete()
         {
-           return View();
+            var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
+            if (user == null)
+                return RedirectToAction("Index", "Home");
+            return View();
         }
 
        
@@ -105,9 +101,18 @@ namespace CourseManagmentSystem.Controllers
         public async Task<ActionResult> DeleteConfirmed()
         {
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user == null) return RedirectToAction("Index", "Home");
+            if (user == null)
+                return RedirectToAction("Index", "Home");
             var result = await UserManager.DeleteAsync(user);
+
+            LogOutUserTabs();
+
             return result.Succeeded ? RedirectToAction("LogOut", "Account") : RedirectToAction("Index","Home");
+        }
+
+        void LogOutUserTabs()
+        {
+            GlobalHost.ConnectionManager.GetHubContext<MyHub>().Clients.User(User.Identity.Name).logOut();
         }
 
         protected override void Dispose(bool disposing)
