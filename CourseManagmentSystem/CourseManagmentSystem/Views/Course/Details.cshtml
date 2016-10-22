@@ -1,29 +1,64 @@
 ﻿@model CourseManagmentSystem.Models.Course
+@using Microsoft.AspNet.Identity
 
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div>
-    <h3>@Html.DisplayFor(model => model.name)</h3>
-    @Html.DisplayFor(model => model.description)
-    <hr />
-    <a href="#" class="btn btn-info">Subscribe</a>
-    <hr />
-    <ul class="list-group">
 
-        <a href="#" class="list-group-item">Lesson 1</a>
-        <a href="#" class="list-group-item">- Questionary 1</a>
-
-        <a href="#" class="list-group-item">Lesson 2</a>
-        <a href="#" class="list-group-item">- Questionary 2</a>
-
-        <a href="#" class="list-group-item">Lesson 3</a>
-        <a href="#" class="list-group-item">- Questionary 3</a>
-
-    </ul>
+<div class="row">
+    <div class="col-sm-8  col-xs-8">
+        <h3>@Html.DisplayFor(model => model.name)</h3>
+        @Html.DisplayFor(model => model.description)
+    </div>
+    <div class="col-sm-4  col-xs-4">
+        <a href="#" class="btn btn-info" style="float: right; margin-top: 20px">Subscribe</a>
+    </div>
 </div>
+<hr />
+<ul class="breadcrumb" style="background-color: white;">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li class="active">Course name</li>
+</ul>
+<div class="list-group" style="font-size: large;">
+    <div class="list-group-item">
+        <div class="row">
+            <div class="col-sm-8 col-xs-6 col-lg-9">
+                <a href="#">Lesson name</a>
+            </div>
+            <div class="col-sm-2 col-xs-2 col-lg-1" style="text-align: right">
+                <a href="#">Forum</a>
+            </div>
+            <div class="col-sm-2 col-xs-3  col-lg-1" style="text-align: right">
+                <a href="#">Questions</a>
+            </div>
+            <div class="col-sm-1 col-xs-1  col-lg-1" style="text-align: right">
+                Mark
+            </div>
+        </div>
+    </div>
+    @foreach (var lesson in Model.Lessons)
+    {
+        <div class="list-group-item">
+            <div class="row">
+                <div class="col-sm-8 col-xs-6">
+                    <a href="#">Lesson name</a>
+                </div>
+                <div class="col-sm-2 col-xs-2" style="text-align: right">
+                    <a href="#">Forum</a>
+                </div>
+                <div class="col-sm-2 col-xs-3" style="text-align: right">
+                    <a href="#">Questions</a>
+                </div>
+                <div class="col-sm-1 col-xs-1" style="text-align: right">
+                    Mark
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
 <p>
-    @Html.ActionLink("Home", "Index", "Home")
+    <a href="#">Forum</a>
 </p>
