@@ -12,7 +12,7 @@ $(function () {
         setTimeout(() => {
                 location.reload();
             },
-            50);
+            100);
     }
     hub.client.logOut = () => {
         document.getElementById("LogOutButton").click();
