@@ -15,12 +15,6 @@ namespace CourseManagmentSystem.Controllers
     {
         private AppDbContext db = new AppDbContext();
 
-        // GET: Course
-        public ActionResult Index()
-        {
-            return View(db.Courses.ToList());
-        }
-
         // GET: Course/Details/5
         public ActionResult Details(int? id)
         {
@@ -88,6 +82,7 @@ namespace CourseManagmentSystem.Controllers
         public ActionResult Edit([Bind(Include = "CourseID,name,description")] Course course)
         {
             if (!ModelState.IsValid) return View(course);
+            course.UserId = User.Identity.GetUserId();
             db.Entry(course).State = EntityState.Modified;
             db.SaveChanges();
             return RedirectToAction("Details");

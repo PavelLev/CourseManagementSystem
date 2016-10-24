@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CourseManagmentSystem.Models;
+using Microsoft.AspNet.SignalR;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -37,13 +39,15 @@ namespace CourseManagmentSystem.Controllers
 
         public ActionResult Details()
         {
-            
             return View();
         }
         // GET: Lesson/Create
-        public ActionResult Create()
+        public ActionResult Create(int courseId)
         {
-            return View();
+            return View(new LessonViewModel()
+            {
+                CourseId = courseId
+            });
         }
 
         // POST: Lesson/Create
@@ -51,16 +55,49 @@ namespace CourseManagmentSystem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "LessonID,presentation,text")] Lesson lesson)
+        public ActionResult Create(LessonViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                db.Lessons.Add(lesson);
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
+            if (!ModelState.IsValidField("Name"))
+                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
+                    .Clients.User(User.Identity.Name)
+                    .updateCreateData(model.Name, model.CourseId, model.VideoLink);
 
-            return View(lesson);
+            else if (!ModelState.IsValidField("TxtFile") || !ModelState.IsValidField("PdfFile"))
+            {
+                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
+                   .Clients.User(User.Identity.Name)
+                   .updateCreateData(model.Name, model.CourseId, model.VideoLink);
+            }
+            var lesson = new Lesson()
+            {
+                TimeOfEdit = null,
+                Name = model.Name,
+                CourseId = model.CourseId,
+                VideoLink = model.VideoLink
+            };
+            if (model.TxtFile != null)
+            {
+                using (var ms = new StreamReader(model.TxtFile.InputStream))
+                {
+                    lesson.Text = ms.ReadToEnd();
+                }
+            }
+            if(model.PdfFile != null)
+            {
+                lesson.File = new PdfFile()
+                {
+                    Content = new BinaryReader(model.PdfFile.InputStream).ReadBytes(model.PdfFile.ContentLength),
+                    ContentLenght = model.PdfFile.ContentLength,
+                    ContentType = model.PdfFile.ContentType,
+                    FileName = model.PdfFile.FileName,
+                };
+                db.PdfFiles.Add(lesson.File);
+                db.SaveChanges();
+            }
+           
+            db.Lessons.Add(lesson);
+            db.SaveChanges();
+            return RedirectToAction("Edit","Course",new {id = lesson.CourseId});
         }
 
         // GET: Lesson/Edit/5
@@ -70,7 +107,7 @@ namespace CourseManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Lesson lesson = db.Lessons.Find(id);
+            var lesson = db.Lessons.Find(id);
             if (lesson == null)
             {
                 return HttpNotFound();

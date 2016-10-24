@@ -22,6 +22,7 @@ namespace CourseManagmentSystem.Models
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
+        public DbSet<PdfFile> PdfFiles { get; set; }
       
     }
 }
