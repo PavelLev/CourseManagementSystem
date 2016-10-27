@@ -440,6 +440,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="scripts\additional-methods.js" />
+    <Content Include="scripts\additional-methods.min.js" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
     <Content Include="scripts\ai.0.22.19-build00125.min.js" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -466,13 +468,16 @@
     <None Include="scripts\jquery.validate-vsdoc.js" />
     <Content Include="scripts\jquery.signalR-2.2.1.js" />
     <Content Include="scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\modernizr-2.8.3.js" />
-    <Content Include="SignalR\Scripts\CreateLesson.js" />
+    <Content Include="SignalR\Scripts\CourseEdit.js" />
+    <Content Include="SignalR\Scripts\Lesson.js" />
     <Content Include="SignalR\Scripts\EditUser.js" />
     <Content Include="SignalR\Scripts\_Layout.js" />
     <Content Include="Views\Lesson\Details.cshtml" />
@@ -506,8 +511,13 @@
     <Compile Include="Migrations\201610242318300_Demo.Designer.cs">
       <DependentUpon>201610242318300_Demo.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610271748491_CourseTableUpdate.cs" />
+    <Compile Include="Migrations\201610271748491_CourseTableUpdate.Designer.cs">
+      <DependentUpon>201610271748491_CourseTableUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\LessonViewModel.cs" />
     <Compile Include="Models\PdfFile.cs" />
+    <Compile Include="YoutubeLink.cs" />
     <Compile Include="SignalR\Hubs\MyHub.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.Designer.cs">
@@ -549,12 +559,15 @@
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Course\Create.cshtml" />
-    <Content Include="Views\Course\Delete.cshtml" />
     <Content Include="Views\Course\Details.cshtml" />
-    <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="Views\Course\LecturerDetails.cshtml" />
     <Content Include="Views\Users\Subscriptions.cshtml" />
     <Content Include="Views\Users\Hostings.cshtml" />
     <Content Include="Views\Lesson\Create.cshtml" />
+    <Content Include="Views\Lesson\Edit.cshtml" />
+    <Content Include="Views\Shared\Test.cshtml" />
+    <Content Include="Views\Lesson\Error.cshtml" />
+    <Content Include="Views\Course\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -580,6 +593,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610242318300_Demo.resx">
       <DependentUpon>201610242318300_Demo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610271748491_CourseTableUpdate.resx">
+      <DependentUpon>201610271748491_CourseTableUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

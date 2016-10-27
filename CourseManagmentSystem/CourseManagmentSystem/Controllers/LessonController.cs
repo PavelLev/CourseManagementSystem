@@ -5,10 +5,18 @@ using System.Data.Entity;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Services.Protocols;
+using System.Web.UI.HtmlControls;
+using System.Web.UI.WebControls;
+using System.Web.WebPages;
 using CourseManagmentSystem.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
+using WebGrease.Css.Extensions;
+using static System.Int32;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -42,93 +50,142 @@ namespace CourseManagmentSystem.Controllers
             return View();
         }
         // GET: Lesson/Create
-        public ActionResult Create(int courseId)
-        {
-            return View(new LessonViewModel()
-            {
-                CourseId = courseId
-            });
-        }
+        
 
         // POST: Lesson/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
+     
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(LessonViewModel model)
+        public ActionResult Create()
         {
-            if (!ModelState.IsValidField("Name"))
-                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
-                    .Clients.User(User.Identity.Name)
-                    .updateCreateData(model.Name, model.CourseId, model.VideoLink);
 
-            else if (!ModelState.IsValidField("TxtFile") || !ModelState.IsValidField("PdfFile"))
+            if (Request.Files["TxtFile"].ContentLength == 0 && Request.Files["PdfFile"].ContentLength == 0)
             {
-                GlobalHost.ConnectionManager.GetHubContext<MyHub>()
-                   .Clients.User(User.Identity.Name)
-                   .updateCreateData(model.Name, model.CourseId, model.VideoLink);
+                return PartialView("~/Views/Lesson/Error.cshtml", "no files");
             }
-            var lesson = new Lesson()
+             if ((Request.Files["TxtFile"].ContentLength > 0 && Request.Files["TxtFile"].ContentType != "text/plain") ||
+                    (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
+                {
+                    return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
+                }
+
+            var lesson = new Lesson
             {
+                Name = Request.Form["Name"],
                 TimeOfEdit = null,
-                Name = model.Name,
-                CourseId = model.CourseId,
-                VideoLink = model.VideoLink
+                CourseId = Parse(Request.Form["CourseId"]),
+                Text = "",
+                VideoLink =  YoutubeLink.GetVideoId(Request.Form["VideoLink"])
             };
-            if (model.TxtFile != null)
+
+
+            if (Request.Form["Name"] == "")
             {
-                using (var ms = new StreamReader(model.TxtFile.InputStream))
+                lesson.Name = Request.Files["TxtFile"].ContentLength > 0 ? Request.Files["TxtFile"].FileName : Request.Files["PdfFile"].FileName;
+            }
+
+            if (Request.Files["TxtFile"].ContentLength > 0)
+            {
+                using (var ms = new StreamReader(Request.Files["TxtFile"].InputStream))
                 {
                     lesson.Text = ms.ReadToEnd();
                 }
             }
-            if(model.PdfFile != null)
+
+            if (Request.Files["PdfFile"].ContentLength > 0)
             {
                 lesson.File = new PdfFile()
                 {
-                    Content = new BinaryReader(model.PdfFile.InputStream).ReadBytes(model.PdfFile.ContentLength),
-                    ContentLenght = model.PdfFile.ContentLength,
-                    ContentType = model.PdfFile.ContentType,
-                    FileName = model.PdfFile.FileName,
+                    Content = new BinaryReader(Request.Files["PdfFile"].InputStream).ReadBytes(Request.Files["PdfFile"].ContentLength),
+                    ContentLenght = Request.Files["PdfFile"].ContentLength,
+                    ContentType = Request.Files["PdfFile"].ContentType,
+                    FileName = Request.Files["PdfFile"].FileName,
                 };
+
                 db.PdfFiles.Add(lesson.File);
                 db.SaveChanges();
             }
-           
+
             db.Lessons.Add(lesson);
             db.SaveChanges();
-            return RedirectToAction("Edit","Course",new {id = lesson.CourseId});
+
+            return PartialView("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
+            {
+                Name = lesson.Name,
+                VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/" + lesson.VideoLink,
+                CourseId = lesson.CourseId,
+                Text = lesson.Text,
+                LessonId = lesson.LessonID,
+                PdfFileId = lesson.PdfFileId,
+                TimeOfEdit = lesson.TimeOfEdit
+
+            });
         }
 
-        // GET: Lesson/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            var lesson = db.Lessons.Find(id);
-            if (lesson == null)
-            {
-                return HttpNotFound();
-            }
-            return View(lesson);
-        }
+       
 
-        // POST: Lesson/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "LessonID,presentation,text")] Lesson lesson)
+        public ActionResult Edit()
         {
-            if (ModelState.IsValid)
+            if ((Request.Files["TxtFile"].ContentLength > 0 && Request.Files["TxtFile"].ContentType != "text/plain") ||
+                   (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
             {
-                db.Entry(lesson).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
             }
-            return View(lesson);
+
+
+            var lesson = new Lesson
+            {
+                Name = Request.Form["Name"],
+                TimeOfEdit = DateTime.Now,
+                LessonID = Parse(Request.Form["LessonId"]),
+                CourseId = Parse(Request.Form["CourseId"]),
+                Text = Request.Form["Text"],
+                VideoLink = YoutubeLink.GetVideoId(Request.Form["VideoLink"]),
+                PdfFileId = Parse(Request["PdfFileId"]),
+                File = db.PdfFiles.Find(Parse(Request["PdfFileId"]))
+            };
+
+            if (Request.Files["TxtFile"].ContentLength > 0)
+            {
+                using (var ms = new StreamReader(Request.Files["TxtFile"].InputStream))
+                {
+                    lesson.Text = ms.ReadToEnd();
+                }
+            }
+
+            if (Request.Files["PdfFile"].ContentLength > 0)
+            {
+                lesson.File = new PdfFile()
+                {
+                    PdfFileId = Parse(Request.Form["PdfFileId"]),
+                    Content = new BinaryReader(Request.Files["PdfFile"].InputStream).ReadBytes(Request.Files["PdfFile"].ContentLength),
+                    ContentLenght = Request.Files["PdfFile"].ContentLength,
+                    ContentType = Request.Files["PdfFile"].ContentType,
+                    FileName = Request.Files["PdfFile"].FileName,
+                };
+
+                db.Entry(lesson.File).State = EntityState.Modified;
+                db.SaveChanges();
+            }
+
+            db.Entry(lesson).State = EntityState.Modified;
+            db.SaveChanges();
+
+            return PartialView("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
+            {
+                Name = lesson.Name,
+                VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/" + lesson.VideoLink,
+                CourseId = lesson.CourseId,
+                Text = lesson.Text,
+                LessonId = lesson.LessonID,
+                PdfFile = lesson.File,
+                PdfFileId = lesson.PdfFileId,
+                TimeOfEdit = lesson.TimeOfEdit
+
+            });
         }
 
         // GET: Lesson/Delete/5

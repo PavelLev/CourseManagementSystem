@@ -1072,3 +1072,4 @@ C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseM
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.AddPdfFileTable.resources
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.AddTimeOfEditToLessonTable.resources
 C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.Demo.resources
+C:\Users\Vasya\Source\Repos\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.CourseTableUpdate.resources

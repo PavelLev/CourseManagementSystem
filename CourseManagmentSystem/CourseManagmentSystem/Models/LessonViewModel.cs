@@ -8,12 +8,13 @@ namespace CourseManagmentSystem.Models
 {
     public class LessonViewModel
     {
-        [Required]
+        
         [Display(Name = "Lesson name")]
         public string Name { get; set; }
         public int CourseId { get; set; }
-        //[Required]
-        //[Display(Name="Text of lecture")]
+        public int LessonId { get; set; }
+        public int? PdfFileId { get; set; }
+        public DateTime? TimeOfEdit { get; set; }
         public string Text { get; set; }
         [Display(Name = "Video link")]
         public string VideoLink { get; set; }

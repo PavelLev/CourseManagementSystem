@@ -60,32 +60,25 @@ namespace CourseManagmentSystem.Controllers
         }
 
         // GET: Course/Edit/5
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
             var course = db.Courses.Find(id);
             if (course == null)
             {
                 return HttpNotFound();
             }
-            return View(course);
+            return View("LecturerDetails",course);
         }
 
-        // POST: Course/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+   
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult Edit([Bind(Include = "CourseID,name,description")] Course course)
         {
-            if (!ModelState.IsValid) return View(course);
+            if (!ModelState.IsValid) PartialView("Edit", course);
             course.UserId = User.Identity.GetUserId();
             db.Entry(course).State = EntityState.Modified;
             db.SaveChanges();
-            return RedirectToAction("Details");
+            return PartialView("Edit", course);
         }
 
         // GET: Course/Delete/5

@@ -6,7 +6,7 @@ using Microsoft.TeamFoundation.VersionControl.Client;
 
 namespace CourseManagmentSystem.Models
 {
-    public class PdfFile
+    public class PdfFile : HttpPostedFileBase
     {
         public int PdfFileId { get; set; }
         public string FileName { get; set; }

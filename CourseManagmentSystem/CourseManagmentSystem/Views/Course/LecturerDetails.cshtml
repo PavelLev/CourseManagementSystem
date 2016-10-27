@@ -1,0 +1,63 @@
+﻿
+@using CourseManagmentSystem.Models
+@model CourseManagmentSystem.Models.Course
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+@{
+    Html.RenderPartial("~/Views/Course/Edit.cshtml",Model);
+}
+
+
+
+<div id="lessonCreation">
+    @{
+        Html.RenderPartial("~/Views/Lesson/Create.cshtml",new LessonViewModel()
+        {
+            CourseId = Model.CourseID
+        });
+    }
+</div>
+
+<div id="lessonEditList">
+    @if (Model.Lessons.Count != 0)
+    {
+        var i = 0;
+        foreach (var lesson in Model.Lessons)
+        {
+            var lessonEditId = "LessonEdit" + lesson.LessonID;
+            <div id=@lessonEditId>
+                @{
+                    Html.RenderPartial("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
+                    {
+                        Name = lesson.Name,
+                        VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/"+lesson.VideoLink,
+                        CourseId = lesson.CourseId,
+                        Text = lesson.Text,
+                        LessonId = lesson.LessonID,
+                        PdfFileId = lesson.PdfFileId,
+                        TimeOfEdit = lesson.TimeOfEdit
+
+
+                    });
+                }
+                
+
+            </div>
+
+
+        }
+    }
+ </div>                   
+
+
+
+
+
+
+
+
