@@ -24,5 +24,6 @@ namespace CourseManagmentSystem.Models
         [Required, FileExtensions(Extensions = ".pdf", ErrorMessage = "Please select an pdf file")]
         [Display(Name = "PDF file")]
         public HttpPostedFileBase PdfFile { get; set; }
+
     }
 }

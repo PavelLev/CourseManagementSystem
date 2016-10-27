@@ -144,9 +144,13 @@ namespace CourseManagmentSystem.Controllers
                 CourseId = Parse(Request.Form["CourseId"]),
                 Text = Request.Form["Text"],
                 VideoLink = YoutubeLink.GetVideoId(Request.Form["VideoLink"]),
-                PdfFileId = Parse(Request["PdfFileId"]),
-                File = db.PdfFiles.Find(Parse(Request["PdfFileId"]))
             };
+ 
+            if (Request.Form["PdfFileId"] != "")
+            {
+                lesson.PdfFileId = Parse(Request.Form["PdfFileId"]);
+                lesson.File = db.PdfFiles.Find(lesson.PdfFileId);
+            }
 
             if (Request.Files["TxtFile"].ContentLength > 0)
             {
@@ -188,30 +192,28 @@ namespace CourseManagmentSystem.Controllers
             });
         }
 
-        // GET: Lesson/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Lesson lesson = db.Lessons.Find(id);
-            if (lesson == null)
-            {
-                return HttpNotFound();
-            }
-            return View(lesson);
-        }
 
-        // POST: Lesson/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+
+        [HttpPost]
+        public ActionResult Delete(int id)
         {
-            Lesson lesson = db.Lessons.Find(id);
+            var lesson = db.Lessons.Find(id);
+            if (lesson.File != null)
+            {
+             db.PdfFiles.Remove(lesson.File);   
+            }
+            if (lesson.Questions.Count != 0)
+            {
+                var count = lesson.Questions.Count;
+                for (var i = 0; i < count; i++)
+                {
+                    db.Questions.Remove(lesson.Questions.AsEnumerable().ElementAt(0));
+                    db.SaveChanges();
+                }
+            }
             db.Lessons.Remove(lesson);
             db.SaveChanges();
-            return RedirectToAction("Index");
+            return new EmptyResult();
         }
 
         protected override void Dispose(bool disposing)

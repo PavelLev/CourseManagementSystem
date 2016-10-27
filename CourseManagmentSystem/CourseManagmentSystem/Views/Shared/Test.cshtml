@@ -1,1 +1,159 @@
-﻿<p>This is Test!</p>
+﻿<html>
+<head>
+    <title>Course - Edit</title>
+    <link href="bootstrap/css/bootstrap-space.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+    <div class="container body-content">
+        <h1>Edit course</h1>
+        <hr style="height:5px;border:none;color:#446e9b;background-color:#446e9b;" />
+        <br />
+        <div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+            <div class="panel-body">
+                <form id="courseForm" method="post" class="form-horizontal" style="margin-left:50px;">
+                    <div class="form-group">
+                        <h2>Course</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Course name </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input class="form-control" style="min-width:100%" type="text" id="courseName" placeholder="Current course name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Course description </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <textarea class="form-control" rows="5" style="min-width:100%;resize: none;" id="courseDescription" placeholder="Current description"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <input type='button' value='Save' class="btn btn-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+            <div class="panel-body">
+                <form id="LessonForm1" method="post" class="form-horizontal" style="margin-left:50px;">
+                    <div class="form-group">
+                        <h2>Lesson 1</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Lesson name </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input class="form-control" style="min-width:100%" type="text" id="lessonName" placeholder="Current lesson name">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Text file </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>PDF file </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Video </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input class="form-control" style="min-width:100%" type="text" id="videoLink" placeholder="Current video link">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Question </label>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
+                            <input class="form-control" style="min-width:100%" type="text" id="question1" placeholder="Question">
+                        </div>
+                        <div class="text-right col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                            <input type='button' value='+' class="btn btn-success">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <input type='button' value='Save' class="btn btn-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+            <div class="panel-body">
+                <form id="NewLessonForm" method="post" class="form-horizontal" style="margin-left:50px;">
+                    <div class="form-group">
+                        <h2>New lesson</h2>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Lesson name </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input class="form-control" style="min-width:100%" type="text" id="lessonName" placeholder="Enter lesson name...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Text file </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>PDF file </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input type="file">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Video </label>
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                            <input class="form-control" style="min-width:100%" type="text" id="videoLink" placeholder="Enter YouTube video link...">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                            <label>Question </label>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-sm-6 col-xs-6">
+                            <input class="form-control" style="min-width:100%" type="text" id="question1" placeholder="Question">
+                        </div>
+                        <div class="text-right col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                            <input type='button' value='+' class="btn btn-success">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="text-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <input type='button' value='Create' class="btn btn-info">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

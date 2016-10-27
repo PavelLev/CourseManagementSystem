@@ -494,6 +494,7 @@
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonController.cs" />
+    <Compile Include="Controllers\QuestionController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Migrations\201610231429308_MigrateDB1.cs" />
     <Compile Include="Migrations\201610231429308_MigrateDB1.Designer.cs">
@@ -514,6 +515,10 @@
     <Compile Include="Migrations\201610271748491_CourseTableUpdate.cs" />
     <Compile Include="Migrations\201610271748491_CourseTableUpdate.Designer.cs">
       <DependentUpon>201610271748491_CourseTableUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610272227457_QuestionTableUpdate.cs" />
+    <Compile Include="Migrations\201610272227457_QuestionTableUpdate.Designer.cs">
+      <DependentUpon>201610272227457_QuestionTableUpdate.cs</DependentUpon>
     </Compile>
     <Compile Include="Models\LessonViewModel.cs" />
     <Compile Include="Models\PdfFile.cs" />
@@ -568,6 +573,8 @@
     <Content Include="Views\Shared\Test.cshtml" />
     <Content Include="Views\Lesson\Error.cshtml" />
     <Content Include="Views\Course\Edit.cshtml" />
+    <Content Include="Views\Question\Create.cshtml" />
+    <Content Include="Views\Question\Edit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -596,6 +603,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610271748491_CourseTableUpdate.resx">
       <DependentUpon>201610271748491_CourseTableUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610272227457_QuestionTableUpdate.resx">
+      <DependentUpon>201610272227457_QuestionTableUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

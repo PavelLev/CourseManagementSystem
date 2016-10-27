@@ -26,12 +26,11 @@
 <div id="lessonEditList">
     @if (Model.Lessons.Count != 0)
     {
-        var i = 0;
         foreach (var lesson in Model.Lessons)
         {
-            var lessonEditId = "LessonEdit" + lesson.LessonID;
-            <div id=@lessonEditId>
-                @{
+            
+          
+               
                     Html.RenderPartial("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
                     {
                         Name = lesson.Name,
@@ -44,14 +43,11 @@
 
 
                     });
-                }
                 
 
-            </div>
-
-
+                 
+            }
         }
-    }
  </div>                   
 
 
