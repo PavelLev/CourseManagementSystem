@@ -36,24 +36,21 @@ namespace CourseManagmentSystem.Controllers
             return View(course);
         }
 
-        // GET: Course/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: Course/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "CourseID,name,description")] Course course)
+        public ActionResult Create([Bind(Include = "CourseId,name,description")] Course course)
         {
             course.UserId = User.Identity.GetUserId();
-            if (!ModelState.IsValid) return View(course);
+            if (!ModelState.IsValid)
+                return View(course);
             db.Courses.Add(course);
             db.SaveChanges();
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Edit", new { id = course.CourseId });
         }
 
         public ActionResult Subscribe(int courseId)
@@ -117,6 +114,26 @@ namespace CourseManagmentSystem.Controllers
             db.Courses.Remove(course);
             db.SaveChanges();
             return RedirectToAction("Index", "Home");
+        }
+
+        public ActionResult Forum(int courseId)
+        {
+            var forum = db.Courses.Find(courseId);
+            if (forum == null)
+            {
+                return HttpNotFound();
+            }
+            return View(forum);
+        }
+
+        public ActionResult Check(int courseId)
+        {
+            var forum = db.Courses.Find(courseId);
+            if (forum == null)
+            {
+                return HttpNotFound();
+            }
+            return View(forum);
         }
 
         protected override void Dispose(bool disposing)

@@ -46,8 +46,18 @@ namespace CourseManagmentSystem
 
         public override Task OnDisconnected(bool stopCalled)
         {
-            CookieConnectionses.First((cookieConnections) => cookieConnections.CookieValue == Context.RequestCookies["__RequestVerificationToken"].Value)
+            try
+            {
+                CookieConnectionses.First(
+                        (cookieConnections) =>
+                            cookieConnections.CookieValue ==
+                            Context.RequestCookies["__RequestVerificationToken"].Value)
                     .Connections.Remove(Context.ConnectionId);
+            }
+            catch
+            {
+                
+            }
             return base.OnDisconnected(stopCalled);
         }
     }

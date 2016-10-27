@@ -9,7 +9,6 @@
 
 @using (Html.BeginForm())
 {
-    @Html.AntiForgeryToken()
 
     <div class="form-horizontal">
         <fieldset>
@@ -41,10 +40,14 @@
 
             <div class="form-group">
                 <div class="col-lg-10 col-lg-offset-2">
-                    <input type="submit" value="Create" class="btn btn-primary"/>
+                    <input type="submit" value="Create" class="btn btn-primary" id="SubmitRegistration" />
                     @Html.ActionLink("Home", "Index", "Home", null, new { @class = "btn btn-info" })
                 </div>
             </div>
         </fieldset>
     </div>
+}
+
+@section scripts{
+    <script src="~/SignalR/Scripts/RegisterAccount.js"></script>
 }

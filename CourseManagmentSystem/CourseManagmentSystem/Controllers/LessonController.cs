@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using CourseManagmentSystem.Models;
+using Microsoft.AspNet.Identity;
 
 namespace CourseManagmentSystem.Controllers
 {
@@ -118,6 +119,22 @@ namespace CourseManagmentSystem.Controllers
             db.Lessons.Remove(lesson);
             db.SaveChanges();
             return RedirectToAction("Index");
+        }
+
+        public ActionResult Test(int lessonId)
+        {
+            var lesson = db.Lessons.Find(lessonId);
+            if (lesson == null)
+            {
+                return HttpNotFound();
+            }
+            var user = db.Users.Find(User.Identity.GetUserId());
+            var enrollmentId = user.Enrollments.First((enrollment) => enrollment.CourseId == lesson.CourseId).EnrollmentID;
+            var answers = lesson.Questions.Select(question => new QuestionAnswer
+            {
+                Question = question, QuestionID = question.QuestionID, EnrollmentID = enrollmentId
+            }).ToList();
+            return View(answers);
         }
 
         protected override void Dispose(bool disposing)

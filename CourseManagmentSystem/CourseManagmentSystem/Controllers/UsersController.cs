@@ -49,7 +49,6 @@ namespace CourseManagmentSystem.Controllers
 
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(EditModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -97,7 +96,6 @@ namespace CourseManagmentSystem.Controllers
 
        
         [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed()
         {
             var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
@@ -143,6 +141,10 @@ namespace CourseManagmentSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             var user = db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
             return View(user);
         }
     }

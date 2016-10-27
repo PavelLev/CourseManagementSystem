@@ -3,7 +3,6 @@ using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-
 namespace CourseManagmentSystem.Models
 {
     public class AppDbContext : IdentityDbContext<User>
@@ -22,6 +21,8 @@ namespace CourseManagmentSystem.Models
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<Question> Questions { get; set; }
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
-      
+        public DbSet<CourseThread> CourseThreads { get; set; }
+        public DbSet<CourseMessage> CourseMessages { get; set; }
+
     }
 }

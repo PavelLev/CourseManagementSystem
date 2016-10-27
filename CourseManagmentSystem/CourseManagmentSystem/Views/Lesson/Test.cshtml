@@ -1,0 +1,45 @@
+﻿@model ICollection<CourseManagmentSystem.Models.QuestionAnswer>
+@{
+    ViewBag.Title = "Test";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Questions</h2>
+<h3>Lesson name</h3>
+
+<hr style="margin-bottom:0px;" />
+
+<ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
+    <li>
+        @Html.ActionLink("Course name", "Details", "Course", new {id = Model.ElementAt(0).Question.Lesson.CourseId}, null)
+    </li>
+    <li>
+        @Html.ActionLink("Lesson name", "Details", "Lesson", new { id = Model.ElementAt(0).Question.LessonId }, null)
+    </li>
+    <li class="active">Questions</li>
+</ul>
+
+<hr style="margin-top:0px;" />
+<div class="panel panel-primary" style="margin:5px;padding-left:20px;padding-right:20px;border-width:5px;">
+
+    @using (Html.BeginForm("Test", "Lesson", FormMethod.Post, new { @class = "form-horizontal" }))
+    {
+        for (var i = 0; i < Model.Count; i++)
+        {
+            @Html.HiddenFor(model => model.ElementAt(i).QuestionID)
+            @Html.HiddenFor(model => model.ElementAt(i).EnrollmentID)
+            <div class="form-group" style="margin-bottom:13px;">
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom:10px;">
+                    <b>@Model.ElementAt(i).Question.text</b>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    @Html.TextAreaFor(model => model.ElementAt(i).answer, new { @class = "form-control", rows = "5", style = "min-width: 100%; resize: none;", placeholder = "Enter your answer..." })
+                </div>
+            </div>
+        }
+
+    }
+</div>

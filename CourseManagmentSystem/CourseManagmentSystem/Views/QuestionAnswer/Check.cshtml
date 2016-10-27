@@ -1,0 +1,37 @@
+﻿@model CourseManagmentSystem.Models.QuestionAnswer
+
+@{
+    var identificator = "CheckQuestionAnswer" + Model.QuestionAnswerID;
+}
+
+@using (Ajax.BeginForm("Create", "CourseMessage", null, new AjaxOptions
+{
+    HttpMethod = "post",
+    InsertionMode = InsertionMode.ReplaceWith,
+    UpdateTargetId = identificator
+}, new
+{
+    id = identificator
+}))
+{
+    @Html.HiddenFor(model => model.EnrollmentID)
+    @Html.HiddenFor(model => model.QuestionAnswerID)
+    <div class="form-group" style="margin-bottom: 13px;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="margin-bottom: 10px;">
+            <b>@Model.Question.text</b>
+            @Html.HiddenFor(model => model.QuestionID)
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <label for="qweqwe" style="font-weight: normal">@Model.answer </label>
+            @Html.HiddenFor(model => model.answer)
+        </div>
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="input-group">
+                @Html.EditorFor(model => model.mark, new { placeholder = "Enter a mark..." });
+                <span class="input-group-btn">
+                    <button type="submit" class="btn btn-info" style="margin: 0px; border-radius: 0px">Submit</button>
+                </span>
+            </div>
+        </div>
+    </div>
+}

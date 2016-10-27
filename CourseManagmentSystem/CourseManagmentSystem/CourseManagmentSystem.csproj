@@ -297,6 +297,8 @@
     <None Include="scripts\jquery.validate-vsdoc.js" />
     <Content Include="scripts\jquery.signalR-2.2.1.js" />
     <Content Include="scripts\jquery.signalR-2.2.1.min.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="scripts\jquery.validate.js" />
     <Content Include="scripts\jquery.validate.min.js" />
     <Content Include="scripts\jquery.validate.unobtrusive.js" />
@@ -304,6 +306,7 @@
     <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="scripts\modernizr-2.8.3.js" />
     <Content Include="SignalR\Scripts\EditUser.js" />
+    <Content Include="SignalR\Scripts\RegisterAccount.js" />
     <Content Include="SignalR\Scripts\_Layout.js" />
     <Content Include="Views\Lesson\Details.cshtml" />
     <Content Include="Web.config">
@@ -317,9 +320,23 @@
     <Compile Include="App_Start\Startup.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
+    <Compile Include="Controllers\CourseMessageController.cs" />
+    <Compile Include="Controllers\CourseThreadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonController.cs" />
+    <Compile Include="Controllers\QuestionAnswerController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="EmailNotifications.cs" />
+    <Compile Include="Migrations\201610251303075_forum.cs" />
+    <Compile Include="Migrations\201610251303075_forum.Designer.cs">
+      <DependentUpon>201610251303075_forum.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610251448182_forum1.cs" />
+    <Compile Include="Migrations\201610251448182_forum1.Designer.cs">
+      <DependentUpon>201610251448182_forum1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CourseMessage.cs" />
+    <Compile Include="Models\CourseThread.cs" />
     <Compile Include="SignalR\Hubs\MyHub.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.Designer.cs">
@@ -342,6 +359,7 @@
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR\Hubs\CookieConnections.cs" />
+    <Compile Include="YoutubeLink.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\web.config">
@@ -366,6 +384,15 @@
     <Content Include="Views\Course\Edit.cshtml" />
     <Content Include="Views\Users\Subscriptions.cshtml" />
     <Content Include="Views\Users\Hostings.cshtml" />
+    <Content Include="Views\Course\Forum.cshtml" />
+    <Content Include="Views\CourseThread\Create.cshtml" />
+    <Content Include="Views\CourseThread\Bar.cshtml" />
+    <Content Include="Views\CourseThread\Index.cshtml" />
+    <Content Include="Views\CourseMessage\Bar.cshtml" />
+    <Content Include="Views\CourseMessage\Create.cshtml" />
+    <Content Include="Views\Course\Check.cshtml" />
+    <Content Include="Views\QuestionAnswer\Check.cshtml" />
+    <Content Include="Views\Lesson\Test.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -379,6 +406,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610211141377_MigrateDB.resx">
       <DependentUpon>201610211141377_MigrateDB.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610251303075_forum.resx">
+      <DependentUpon>201610251303075_forum.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610251448182_forum1.resx">
+      <DependentUpon>201610251448182_forum1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

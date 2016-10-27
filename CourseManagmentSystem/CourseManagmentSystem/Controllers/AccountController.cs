@@ -30,7 +30,6 @@ namespace CourseManagmentSystem.Controllers
         }
         
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
             if (!ModelState.IsValid) return View(model);
@@ -44,6 +43,8 @@ namespace CourseManagmentSystem.Controllers
                 {
                     IsPersistent = true
                 }, claim);
+
+                await EmailNotifications.Send(user.Email, "subject", "body");
 
                 ReloadBrowserTabs();
 
@@ -66,7 +67,6 @@ namespace CourseManagmentSystem.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<ActionResult> LogIn(LoginViewModel model, string returnUrl)
         {
             if (ModelState.IsValid)
@@ -114,6 +114,13 @@ namespace CourseManagmentSystem.Controllers
                 .Clients.Clients(MyHub.GetConnections(Request.Cookies["__RequestVerificationToken"].Value))
                 .reload();
         }
-
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
     }
 }

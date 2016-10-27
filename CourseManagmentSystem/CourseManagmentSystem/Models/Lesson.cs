@@ -9,6 +9,7 @@ namespace CourseManagmentSystem.Models
     {
         public int LessonID { get; set; }
         public string presentation { get; set; }
+        public int CourseId { get; set; }
         public virtual Course Course { get; set; }
         public string text { get; set; }
         public virtual ICollection<Question> Questions { get; set; }
