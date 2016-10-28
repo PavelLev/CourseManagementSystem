@@ -1,4 +1,4 @@
-﻿
+﻿@model CourseManagmentSystem.Models.Lesson
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -28,7 +28,7 @@
 </div>
 <hr />
 <p>
-    When you are ready you can answer some <a href="#" style="font-size: large">Questions</a> according to this lesson.
+    When you are ready you can answer some @Html.ActionLink("Questions", "Test", "Lesson",new {lessonId = Model.LessonID}, null) according to this lesson.
 </p>
 <p>
     If you have questions on lesson material you can go to <a href="#" style="font-size: large">Lesson forum</a> and discuss them with other students or lecturer of this course.

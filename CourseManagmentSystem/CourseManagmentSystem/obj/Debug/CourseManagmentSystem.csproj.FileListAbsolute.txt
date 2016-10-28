@@ -696,3 +696,6 @@ N:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\
 D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.forum.resources
 D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.forum1.resources
 D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.csprojResolveAssemblyReference.cache
+D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.answers.resources
+D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.qwe.resources
+D:\Sigma\CourseManagementSystem\CourseManagmentSystem\CourseManagmentSystem\obj\Debug\CourseManagmentSystem.Migrations.forum2.resources

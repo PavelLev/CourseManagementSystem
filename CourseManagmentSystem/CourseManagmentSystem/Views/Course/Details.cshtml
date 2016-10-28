@@ -13,7 +13,28 @@
         @Html.DisplayFor(model => model.description)
     </div>
     <div class="col-sm-4  col-xs-4">
-        <a href="#" class="btn btn-info" style="float: right; margin-top: 20px">Subscribe</a>
+        @{
+            string link, message;
+            if (!Request.IsAuthenticated)
+            {
+                link = Url.Action("Login", "Account");
+                message = "Subscribe";
+            }
+            else
+            {
+                if (Model.Enrollments.Any((item) => item.UserId == Model.UserId))
+                {
+                    link = Url.Action("Subscribe", "Course", new { courseId = Model.CourseId });
+                    message = "Subscribe";
+                }
+                else
+                {
+                    link = Url.Action("Unsubscribe", "Course", new { courseId = Model.CourseId });
+                    message = "Unsubscribe";
+                }
+            }
+            <a href="@link" class="btn btn-info" style="float: right; margin-top: 20px">@message</a>
+        }
     </div>
 </div>
 <hr />
@@ -21,44 +42,16 @@
     <li>@Html.ActionLink("Home", "Index", "Home")</li>
     <li class="active">Course name</li>
 </ul>
-<div class="list-group" style="font-size: large;">
-    <div class="list-group-item">
-        <div class="row">
-            <div class="col-sm-8 col-xs-6 col-lg-9">
-                <a href="#">Lesson name</a>
-            </div>
-            <div class="col-sm-2 col-xs-2 col-lg-1" style="text-align: right">
-                <a href="#">Forum</a>
-            </div>
-            <div class="col-sm-2 col-xs-3  col-lg-1" style="text-align: right">
-                <a href="#">Questions</a>
-            </div>
-            <div class="col-sm-1 col-xs-1  col-lg-1" style="text-align: right">
-                Mark
-            </div>
+<div class="panel panel-primary" style="border-width:5px;">
+    <div class="panel-body">
+        <div class="list-group" style="font-size: large;margin-bottom:0;">
+            @foreach (var lesson in Model.Lessons)
+            {
+                Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
+            }
         </div>
     </div>
-    @foreach (var lesson in Model.Lessons)
-    {
-        <div class="list-group-item">
-            <div class="row">
-                <div class="col-sm-8 col-xs-6">
-                    <a href="#">Lesson name</a>
-                </div>
-                <div class="col-sm-2 col-xs-2" style="text-align: right">
-                    <a href="#">Forum</a>
-                </div>
-                <div class="col-sm-2 col-xs-3" style="text-align: right">
-                    <a href="#">Questions</a>
-                </div>
-                <div class="col-sm-1 col-xs-1" style="text-align: right">
-                    Mark
-                </div>
-            </div>
-        </div>
-    }
 </div>
-
 <p>
-    <a href="#">Forum</a>
+    If you have questions that relate to the course in general and don't relate to any particular lesson, you can ask them in a <a href="@Url.Action("Forum", "Course", new {courseId = Model.CourseId})" style="font-size: large">Course forum</a>.
 </p>

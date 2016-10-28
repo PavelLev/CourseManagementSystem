@@ -8,12 +8,13 @@ namespace CourseManagmentSystem.Models
     public class QuestionAnswer
 
     {
-        public int QuestionAnswerID { get; set; }
+        public int QuestionAnswerId { get; set; }
+        public string Answer { get; set; }
+        public int? Mark { get; set; }
+        public string Question { get; set; }
+        public int LessonID { get; set; }
+        public Lesson Lesson { get; set; }
         public int EnrollmentID { get; set; }
-        public int QuestionID { get; set; }
-        public string answer { get; set; }
-        public int mark { get; set; }
-        public virtual Question Question { get; set; }
         public virtual Enrollment Enrollment { get; set; }
         
     }

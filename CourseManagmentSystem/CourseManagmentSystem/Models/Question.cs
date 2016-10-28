@@ -9,8 +9,7 @@ namespace CourseManagmentSystem.Models
     {
         public int QuestionID { get; set; }
         public string text { get; set; }
-        public int maxMark { get; set; }
-        public int LessonId { get; set; }
+        public int LessonID { get; set; }
         public virtual Lesson Lesson { get; set; }
         public virtual ICollection<QuestionAnswer> QuestionAnswers { get; set; }
 

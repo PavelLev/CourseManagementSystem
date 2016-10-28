@@ -324,6 +324,8 @@
     <Compile Include="Controllers\CourseThreadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LessonController.cs" />
+    <Compile Include="Controllers\LessonMessageController.cs" />
+    <Compile Include="Controllers\LessonThreadController.cs" />
     <Compile Include="Controllers\QuestionAnswerController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="EmailNotifications.cs" />
@@ -335,8 +337,24 @@
     <Compile Include="Migrations\201610251448182_forum1.Designer.cs">
       <DependentUpon>201610251448182_forum1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201610280439174_answers.cs" />
+    <Compile Include="Migrations\201610280439174_answers.Designer.cs">
+      <DependentUpon>201610280439174_answers.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610280908228_qwe.cs" />
+    <Compile Include="Migrations\201610280908228_qwe.Designer.cs">
+      <DependentUpon>201610280908228_qwe.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201610281354127_forum2.cs" />
+    <Compile Include="Migrations\201610281354127_forum2.Designer.cs">
+      <DependentUpon>201610281354127_forum2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\CheckCourseAnswersViewModel.cs" />
     <Compile Include="Models\CourseMessage.cs" />
     <Compile Include="Models\CourseThread.cs" />
+    <Compile Include="Models\LessonMessage.cs" />
+    <Compile Include="Models\LessonThread.cs" />
+    <Compile Include="Models\TestLessonViewModel.cs" />
     <Compile Include="SignalR\Hubs\MyHub.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.Designer.cs">
@@ -393,6 +411,14 @@
     <Content Include="Views\Course\Check.cshtml" />
     <Content Include="Views\QuestionAnswer\Check.cshtml" />
     <Content Include="Views\Lesson\Test.cshtml" />
+    <Content Include="Views\Course\Tile.cshtml" />
+    <Content Include="Views\LessonMessage\Bar.cshtml" />
+    <Content Include="Views\LessonMessage\Create.cshtml" />
+    <Content Include="Views\LessonThread\Bar.cshtml" />
+    <Content Include="Views\LessonThread\Create.cshtml" />
+    <Content Include="Views\LessonThread\Index.cshtml" />
+    <Content Include="Views\Lesson\Forum.cshtml" />
+    <Content Include="Views\Lesson\Bar.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -412,6 +438,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201610251448182_forum1.resx">
       <DependentUpon>201610251448182_forum1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610280439174_answers.resx">
+      <DependentUpon>201610280439174_answers.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610280908228_qwe.resx">
+      <DependentUpon>201610280908228_qwe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201610281354127_forum2.resx">
+      <DependentUpon>201610281354127_forum2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -23,6 +23,8 @@ namespace CourseManagmentSystem.Models
         public DbSet<QuestionAnswer> QuestionAnswers { get; set; }
         public DbSet<CourseThread> CourseThreads { get; set; }
         public DbSet<CourseMessage> CourseMessages { get; set; }
+        public DbSet<LessonThread> LessonThreads { get; set; }
+        public DbSet<LessonMessage> LessonMessages { get; set; }
 
     }
 }

@@ -20,14 +20,6 @@
             <dd>
                 @Html.DisplayFor(model => model.Name)
             </dd>
-
-            <dt>
-                Email
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
         </dl>
     </div>
 </div>
@@ -35,26 +27,5 @@
 
 @foreach (var enrollment in Model.Enrollments)
 {
-    <div class="col-sm-3">
-        <div class="panel panel-primary">
-            <div class="panel-heading">
-                <h3 class="panel-title">@Html.DisplayFor(model => enrollment.Course.name)</h3>
-            </div>
-            <div class="panel-body">
-                <div style="height: 100px;  overflow: hidden">
-                    <p>@Html.DisplayFor(model => enrollment.Course.description)</p>
-                </div>
-                <br />
-                <a href="#" class="btn btn-info">More</a>
-            </div>
-        </div>
-    </div>
-
+    Html.RenderPartial("~/Views/Course/Tile.cshtml", enrollment.Course);
 }
-
-
-
-<br style="clear: both;">
-
-
-

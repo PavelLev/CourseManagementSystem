@@ -1,0 +1,38 @@
+﻿@using Microsoft.AspNet.Identity
+@model CourseManagmentSystem.Models.Course
+    
+<div class="col-sm-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">@Html.DisplayFor(model => Model.name)</h3>
+        </div>
+        <div class="panel-body">
+            <div style="height: 100px; overflow: hidden">
+                <p>@Html.DisplayFor(model => Model.description)</p>
+            </div>
+            <br />
+            @if (!Request.IsAuthenticated)
+            {
+                @Html.ActionLink("More", "Details", "Course", new { id = Model.CourseId }, new { @class = "btn btn-primary" })
+                @Html.ActionLink("Subscribe", "LogIn", "Account", new { returnUrl = Request.Url }, new { @class = "btn btn-primary" })
+            }
+            else
+            {
+                var a = User.Identity.GetUserId();
+                if (Model.UserId == a)
+                {
+                    @Html.ActionLink("Edit", "Edit", "Course", new { id = Model.CourseId }, new { @class = "btn btn-info" })
+                }
+                else
+                {
+                    @Html.ActionLink("More", "Details", "Course", new { id = Model.CourseId }, new { @class = "btn btn-primary" })
+                    if (Model.Enrollments.FirstOrDefault(e => e.UserId == User.Identity.GetUserId()) == null)
+                    {
+                        @Html.ActionLink("Subscribe", "Subscribe", "Course", new { courseId = Model.CourseId }, new { @class = "btn btn-primary" })
+                    }
+                }
+            }
+        </div>
+    </div>
+</div>
+

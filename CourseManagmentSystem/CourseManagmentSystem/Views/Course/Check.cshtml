@@ -1,7 +1,29 @@
-﻿@model CourseManagmentSystem.Models.Course
+﻿@model CourseManagmentSystem.Models.CheckCourseAnswersViewModel
 @{
     ViewBag.Title = "Check";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<h2>Answers</h2>
+<h3>@Model.Course.name</h3>
+
+<hr style="margin-bottom:0px;" />
+
+<ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
+    <li>
+        @Html.ActionLink("Course name", "Details", "Course", new { id = Model.Course.CourseId }, null)
+    </li>
+    <li class="active">Answers</li>
+</ul>
+
+<hr style="margin-top:0px;" />
+<div class="panel-body" style="padding:0px;background-color: #446e9b">
+    @foreach (var answer in Model.Answers)
+    {
+        Html.RenderPartial("~/Views/QuestionAnswer/Check.cshtml", answer);
+    }
+</div>
 

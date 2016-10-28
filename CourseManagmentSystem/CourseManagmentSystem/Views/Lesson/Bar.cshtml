@@ -1,0 +1,28 @@
+﻿@model CourseManagmentSystem.Models.Lesson
+
+<div class="list-group-item">
+    <div class="row">
+        <div class="col-lg-9 col-md-8 col-sm-7 col-xs-6">
+            @Html.ActionLink(Model.Name, "Details", "Lesson", new { lessonId=Model.LessonID }, null)
+        </div>
+        <div class="col-lg-1 col-md-1 col-sm-2 col-xs-2 " style="text-align: right">
+            @Html.ActionLink("Forum", "Forum", "Lesson", new { lessonId = Model.LessonID }, null)
+        </div>
+        <div class="col-lg-1 col-md-2 col-sm-2 col-xs-3" style="text-align: right">
+            @Html.ActionLink("Questions", "Test", "Lesson", new { lessonId = Model.LessonID }, null)
+        </div>
+        <div class=" col-lg-1 col-md-1 col-sm-1 col-xs-1" style="text-align: right">
+            @{
+                var mark = 0;
+                foreach (var answer in Model.Answers)
+                {
+                    mark += answer.Mark ?? 0;
+                }
+                <div>
+                    @mark
+                </div>
+            }
+            
+        </div>
+    </div>
+</div>

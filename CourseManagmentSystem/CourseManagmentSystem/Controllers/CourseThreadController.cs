@@ -11,7 +11,7 @@ namespace CourseManagmentSystem.Controllers.Forum
     public class CourseThreadController : Controller
     {
         private AppDbContext db = new AppDbContext();
-        // GET: CourseThread
+
         public ActionResult Index(int? courseThreadId)
         {
             if (courseThreadId == null || !User.Identity.IsAuthenticated)
@@ -25,10 +25,7 @@ namespace CourseManagmentSystem.Controllers.Forum
             }
             return View(thread);
         }
-
-        // POST: Course/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        
         [HttpPost]
         public ActionResult Create([Bind(Include = "CourseId, Name")] CourseThread thread)
         {

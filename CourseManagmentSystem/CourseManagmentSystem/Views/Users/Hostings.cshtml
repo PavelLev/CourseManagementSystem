@@ -20,75 +20,28 @@
             <dd>
                 @Html.DisplayFor(model => model.Name)
             </dd>
-
-            <dt>
-                Email
-            </dt>
-
-            <dd>
-                @Html.DisplayFor(model => model.Email)
-            </dd>
         </dl>
     </div>
 </div>
 
-@switch (Model.Hostings.Count)
+@foreach (var course in Model.Hostings)
 {
-    case 0:
-        <div class="col-sm-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">New course</h3>
-                </div>
-                <div class="panel-body">
-                    <div style="height: 100px; overflow: hidden">
-                        <p></p>
-                    </div>
-                    <br />
-                    <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
-                </div>
-            </div>
-        </div>
-
-        @:<br style="clear: both;">
-        break;
-    default:
-        foreach (var course in Model.Hostings)
-        {
-            <div class="col-sm-3">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">@Html.DisplayFor(model => course.name)</h3>
-                    </div>
-                    <div class="panel-body">
-                        <div style="height: 100px; overflow: hidden">
-                            <p>@Html.DisplayFor(model => course.description)</p>
-                        </div>
-                        <br/>
-                        <a href="#" class="btn btn-info">More</a>
-                    </div>
-                </div>
-            </div>
-
-        }
-
-        <div class="col-sm-3">
-            <div class="panel panel-primary">
-                <div class="panel-heading">
-                    <h3 class="panel-title">New course</h3>
-                </div>
-                <div class="panel-body">
-                    <div style="height: 100px; overflow: hidden">
-                        <p></p>
-                    </div>
-                    <br/>
-                    <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
-                </div>
-            </div>
-        </div>
-
-        @:<br style="clear: both;">
-        break;
+    Html.RenderPartial("~/Views/Course/Tile.cshtml", course);
 }
+
+<div class="col-sm-3">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">New course</h3>
+        </div>
+        <div class="panel-body">
+            <div style="height: 100px; overflow: hidden">
+                <p></p>
+            </div>
+            <br/>
+            <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
+        </div>
+    </div>
+</div>
 
 

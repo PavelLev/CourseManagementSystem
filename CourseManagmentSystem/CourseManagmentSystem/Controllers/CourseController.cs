@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using CourseManagmentSystem.Migrations;
 using CourseManagmentSystem.Models;
 using Microsoft.AspNet.Identity;
 
@@ -55,11 +56,43 @@ namespace CourseManagmentSystem.Controllers
 
         public ActionResult Subscribe(int courseId)
         {
+            var course = db.Courses.Find(courseId);
+            var userId = User.Identity.GetUserId();
+            if (course.UserId == userId)
+            {
+                return RedirectToAction("Edit", "Course", new { id = courseId });
+            }
+            if (course.Enrollments.Any((item) => item.UserId == userId))
+            {
+                return RedirectToAction("Details", "Course", new {id = courseId});
+            }
             var enrollment = new Enrollment {UserId = User.Identity.GetUserId(), CourseId = courseId};
             db.Enrollments.Add(enrollment);
             db.SaveChanges();
-            return RedirectToAction("Details",new {id = courseId});
+            return RedirectToAction("Details", new {id = courseId});
+        }
 
+        public ActionResult UnSubscribe(int courseId)
+        {
+            var course = db.Courses.Find(courseId);
+            var userId = User.Identity.GetUserId();
+            if (course.UserId == userId)
+            {
+                return RedirectToAction("Edit", "Course", new { id = courseId });
+            }
+
+
+            var enrollment = course.Enrollments.FirstOrDefault((item) => item.UserId == userId);
+
+            if (enrollment == null)
+            {
+                return RedirectToAction("Details", "Course", new { id = courseId });
+            }
+
+            db.Enrollments.Remove(enrollment);
+
+            db.SaveChanges();
+            return RedirectToAction("Details", new { id = courseId });
         }
 
         // GET: Course/Edit/5
@@ -118,22 +151,39 @@ namespace CourseManagmentSystem.Controllers
 
         public ActionResult Forum(int courseId)
         {
-            var forum = db.Courses.Find(courseId);
-            if (forum == null)
+            var course = db.Courses.Find(courseId);
+            if (course == null)
             {
                 return HttpNotFound();
             }
-            return View(forum);
+            return View(course);
         }
 
         public ActionResult Check(int courseId)
         {
-            var forum = db.Courses.Find(courseId);
-            if (forum == null)
+            var course = db.Courses.Find(courseId);
+            if (course == null)
             {
                 return HttpNotFound();
             }
-            return View(forum);
+            var model = new CheckCourseAnswersViewModel
+            {
+                Course = course,
+                Answers = new List<QuestionAnswer>()
+            };
+
+            foreach (var enrollment in course.Enrollments)
+            {
+                foreach (var answer in enrollment.QuestionAnswers)
+                {
+                    if (answer.Mark == null)
+                    {
+                        model.Answers.Add(answer);
+                    }
+                }
+            }
+
+            return View(model);
         }
 
         protected override void Dispose(bool disposing)

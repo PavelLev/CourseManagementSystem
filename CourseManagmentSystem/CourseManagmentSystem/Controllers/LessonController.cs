@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
+using System.IO.Pipes;
 using System.Linq;
 using System.Net;
 using System.Web;
@@ -36,10 +37,14 @@ namespace CourseManagmentSystem.Controllers
             return View(lesson);
         }*/
 
-        public ActionResult Details()
+        public ActionResult Details(int lessonId)
         {
-            
-            return View();
+            var lesson = db.Lessons.Find(lessonId);
+            if (lesson == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lesson);
         }
         // GET: Lesson/Create
         public ActionResult Create()
@@ -129,12 +134,48 @@ namespace CourseManagmentSystem.Controllers
                 return HttpNotFound();
             }
             var user = db.Users.Find(User.Identity.GetUserId());
-            var enrollmentId = user.Enrollments.First((enrollment) => enrollment.CourseId == lesson.CourseId).EnrollmentID;
-            var answers = lesson.Questions.Select(question => new QuestionAnswer
+            var enrollmentId =
+                user.Enrollments.First((enrollment) => enrollment.CourseId == lesson.CourseId).EnrollmentID;
+            var model = new TestLessonViewModel
             {
-                Question = question, QuestionID = question.QuestionID, EnrollmentID = enrollmentId
-            }).ToList();
-            return View(answers);
+                Lesson = lesson,
+                LessonID = lesson.LessonID,
+                EnrollmentID = enrollmentId,
+                Questions = lesson.Questions.Select(question => question.text).ToList()
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        public ActionResult Test()
+        {
+            var lessonId = int.Parse(Request.Form["LessonID"]);
+            var enrollmentId = int.Parse(Request.Form["EnrollmentID"]);
+            var answerCount = int.Parse(Request.Form["AnswerCount"]);
+            for (var i = 0; i < answerCount; i++)
+            {
+                var answer = Request.Form["Answer" + i];
+                db.QuestionAnswers.Add(new QuestionAnswer
+                {
+                    LessonID = lessonId,
+                    EnrollmentID = enrollmentId,
+                    Question = Request.Form["Question" + i],
+                    Answer = answer,
+                    Mark = answer == "" ? 0 as int? : null
+                });
+            }
+            db.SaveChanges();
+            return RedirectToAction("Details", "Lesson", new {lessonId});
+        }
+
+        public ActionResult Forum(int lessonId)
+        {
+            var lesson = db.Courses.Find(lessonId);
+            if (lesson == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lesson);
         }
 
         protected override void Dispose(bool disposing)
