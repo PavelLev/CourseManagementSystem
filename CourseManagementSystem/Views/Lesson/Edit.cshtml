@@ -105,7 +105,7 @@
     <script>
         $("@formIdQuery")
             .submit(() => {
-                alert("submitted");
+                //alert("submitted");
                 var model = new FormData($("@formIdQuery")[0]);
                 $.ajax({
                     url: "/Lesson/Edit",
@@ -119,7 +119,7 @@
                             $("#validateEditPdfFile").show();
                         } else {
                             response = response.substring(response.indexOf("method='post'>") + 14, response.indexOf("</form>"));
-                            alert(response);
+                            //alert(response);
                             $("@formIdQuery").html(response);
                         }
                     }
