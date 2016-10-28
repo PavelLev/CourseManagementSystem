@@ -1,0 +1,23 @@
+﻿@using Microsoft.AspNet.Identity
+@model CourseManagementSystem.Models.User
+
+@{
+    ViewBag.Title = "Delete";
+}
+<br>
+<h3>Are you sure you want to delete this account?</h3>
+<br>
+<div>
+
+
+    @using (Html.BeginForm())
+    {
+
+        <div class="form-actions no-color">
+            <form method="post">
+                <input type="submit" value="Delete" class="btn btn-danger" style="margin-right: 20px;" />
+                <a href="javascript:void(0);" onclick="history.go(-1);" class="btn btn-info">Return</a>
+            </form>
+        </div>
+    }
+</div>

@@ -1,0 +1,22 @@
+﻿@model CourseManagementSystem.Models.LessonThread
+
+
+<div class="panel panel-primary" style="margin:5px;">
+    <div class="panel-body">
+        <div class="row" style="padding:0px;">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6">
+                @Html.ActionLink(Model.Name, "Index", "LessonThread", new {courseThreadId = Model.LessonThreadId}, null)
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="text-center">
+                    @Model.User.Name
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <div class="text-center">
+                    @Model.LastChangeDateTime
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,65 @@
+﻿@model CourseManagementSystem.Models.Course
+@using Microsoft.AspNet.Identity
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="row">
+    <div class="col-sm-8  col-xs-8">
+        <h3>@Html.DisplayFor(model => model.Name)</h3>
+        @Html.DisplayFor(model => model.Description)
+    </div>
+    <div class="col-sm-4  col-xs-4">
+        @{
+            string link, message;
+            if (!Request.IsAuthenticated)
+            {
+                link = Url.Action("Login", "Account");
+                message = "Subscribe";
+            }
+            else
+            {
+                if (Model.Enrollments.Any((item) => item.UserId == User.Identity.GetUserId()))
+                {
+                    link = Url.Action("Unsubscribe", "Course", new { courseId = Model.CourseId });
+                    message = "Unsubscribe";
+                }
+                else
+                {
+                    if (Model.UserId != User.Identity.GetUserId())
+                    {
+                        link = Url.Action("Subscribe", "Course", new {courseId = Model.CourseId});
+                        message = "Subscribe";
+                    }
+                    else
+                    {
+                        link = Url.Action("Edit", "Course", new { id = Model.CourseId });
+                        message = "Edit";
+                    }
+                }
+            }
+            <a href="@link" class="btn btn-info" style="float: right; margin-top: 20px">@message</a>
+        }
+    </div>
+</div>
+<hr />
+<ul class="breadcrumb" style="background-color: white;">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li class="active">Course name</li>
+</ul>
+<div class="panel panel-primary" style="border-width:5px;">
+    <div class="panel-body">
+        <div class="list-group" style="font-size: large;margin-bottom:0;">
+            @foreach (var lesson in Model.Lessons)
+            {
+                Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
+            }
+        </div>
+    </div>
+</div>
+<p>
+    If you have questions that relate to the course in general and don't relate to any particular lesson, you can ask them in a <a href="@Url.Action("Forum", "Course", new {courseId = Model.CourseId})" style="font-size: large">Course forum</a>.
+</p>

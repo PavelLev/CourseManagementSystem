@@ -1,0 +1,31 @@
+﻿@model CourseManagementSystem.Models.Question
+
+
+<div class="form-horizontal" style="margin-right:100px">
+    <div class="form-group">
+        @using (Ajax.BeginForm("Create", "Question", new AjaxOptions()
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.InsertAfter,
+            UpdateTargetId = "questionList"
+
+        }))
+        {
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+           
+            <div class="col-lg-10 col-md-10 col-sm-6 col-xs-6">
+                <input class="form-control text-box single-line" data-val="true" data-val-required="The Question field is required." id="questionCreate" name="Text" type="text" value="" style="min-width:100%" placeholder="Question">
+                @Html.ValidationMessageFor(model => model.Text, "", new { @class = "text-danger" })
+
+            </div>
+            @Html.HiddenFor(model => model.LessonId)
+
+            <div class="text-right col-lg-1 col-md-1 col-sm-2 col-xs-2">
+                <button type='submit' onclick="setTimeout(() => { $('#questionCreate').val('') }, 0)" class="btn btn-success"> Add </button>
+            </div>
+        }
+    </div>
+
+
+</div>

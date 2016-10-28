@@ -1,0 +1,55 @@
+﻿@using Microsoft.AspNet.Identity
+@using CourseManagementSystem.Models;
+@model Course
+
+@{
+    ViewBag.Title = "Forum";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Forum</h2>
+<h3>@Model.Name</h3>
+
+<hr style="margin-bottom:0px;" />
+
+<ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
+    <li>
+        @Html.ActionLink(Model.Name, Model.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Course", new {id = Model.CourseId}, null)
+    </li>
+    <li class="active">Forum</li>
+</ul>
+
+<hr style="margin-top:0px;" />
+
+@{
+    Html.RenderPartial("~/Views/CourseThread/Create.cshtml", new CourseThread { CourseId = Model.CourseId });
+}
+
+<div class="panel panel-primary" style="margin-top:20px; border-width:5px;">
+    <div class="panel-heading" style="padding-right:20px; padding-left:20px; border-radius:0%;">
+        <div class="row" style="padding:0px; font-size:120%;">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-6">
+                Topic
+            </div>
+            <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+                <div class="text-center">
+                    Creator
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">
+                <div class="text-center">
+                    Last message
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="CourseThreads" class="panel-body" style="padding:0px; background-color: white">
+        @foreach (CourseThread thread in Model.Threads)
+        {
+            Html.RenderPartial("~/Views/CourseThread/Bar.cshtml", thread);
+        }
+    </div>
+</div>

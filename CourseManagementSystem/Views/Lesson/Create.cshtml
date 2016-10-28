@@ -1,0 +1,86 @@
+﻿@model CourseManagementSystem.Models.LessonViewModel
+
+<form method="post" id="createLesson"  class="form-horizontal" style="margin-left:50px;" >
+
+    <div class="form-group">
+        <h2>New lesson</h2>
+    </div>
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                @Html.LabelFor(model => model.Name)
+            </div>
+            <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "name", style = "min-width:100%", type = "text", placeholder = "Enter lesson name..." } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.CourseId, new { id = "id" })
+
+
+    <div class="form-group">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            @Html.LabelFor(model => model.VideoLink)
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+            @Html.EditorFor(model => model.VideoLink, new { htmlAttributes = new { @class = "form-control", id = "videoLink", style = "min-width:100%", type = "text", placeholder = "Enter YouTube video link..." } })
+            @Html.ValidationMessageFor(model => model.VideoLink, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            @Html.LabelFor(model => model.TxtFile, new { @class = "control-label col-md-2" })
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+            @Html.TextBoxFor(model => model.TxtFile, new { type = "file", id = "fileTxt" })
+            @Html.ValidationMessageFor(model => model.TxtFile, "You can only upload TXT/MD", new { id = "validateTxtFile", style = "display:none" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+            @Html.LabelFor(model => model.PdfFile, new { @class = "control-label col-md-2" })
+        </div>
+        <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+            @Html.TextBoxFor(model => model.PdfFile, new { type = "file", id = "filePdf" })
+            @Html.ValidationMessageFor(model => model.PdfFile, "You can only upload PDF", new { id = "validatePdfFile", style = "display:none" })
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="text-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <input type="submit" value="Create" class="btn btn-info" />
+        </div>
+    </div>
+</form>
+
+<script>
+    $("#createLesson")
+        .submit(() => {
+            alert("submitted");
+            var model = new FormData($("#createLesson")[0]);
+                $.ajax({
+                url: "/Lesson/Create",
+                type: "POST",
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data
+                data: model,
+                success: (response) => {
+                    if (response === "no files") {
+                        alert("At least one file is required");
+                    }
+                    else if (response === "wrong extensions") {
+                        $("#validateTxtFile").show();
+                        $("#validatePdfFile").show();
+                    }
+                    else {
+                        $("#lessonEditList").append(response);
+                        $("#createLesson")[0].reset();
+                    }
+                }
+        });
+            return false;
+        });
+          
+
+      
+</script>

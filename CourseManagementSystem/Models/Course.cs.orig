@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Web;
+
+namespace CourseManagementSystem.Models
+{
+    public class Course
+    {
+<<<<<<< HEAD
+        public int CourseId { get; set; }
+        [Required]
+        [Display(Name = "Name of course")]
+        public string Name { get; set; }
+        [Required]
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+=======
+        public int CourseId { get; set; }
+        public string name { get; set; }
+        public string description { get; set; }
+>>>>>>> forum2
+        public string UserId { get; set; }
+        public virtual User User { get; set; }
+        public virtual ICollection<CourseThread> Threads { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
+    }
+}

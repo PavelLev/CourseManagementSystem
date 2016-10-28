@@ -1,0 +1,51 @@
+﻿@model CourseManagementSystem.Models.Question
+@{
+    var questionEditId = "QuestionEdit" + Model.QuestionID;
+}
+<div id="@questionEditId">
+
+
+    <div class="form-horizontal">
+
+        <div class="form-group">
+            @using (Ajax.BeginForm("Edit", "Question", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = questionEditId
+
+            }, new {style="margin-right:100px"}))
+            {
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.QuestionID)
+  
+                <div class="col-lg-10 col-md-10 col-sm-6 col-xs-6">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="The Question field is required." name="Text" value="@Model.Text" type="text"  style="min-width:100%" >
+                    @Html.ValidationMessageFor(model => model.Text)
+                </div>
+                @Html.HiddenFor(model => model.QuestionID)
+                @Html.HiddenFor(model => model.LessonId)
+
+                <div class="text-right col-lg-1 col-md-1 col-sm-2 col-xs-2" style="margin-right: 50px">
+                    <input type='button' value='Save' class="btn btn-info" />
+                </div>
+
+            }
+            @using (Ajax.BeginForm("Delete", "Question", new { questionId = Model.QuestionID }, new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = questionEditId
+            }, new {  }))
+            {
+
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            }
+        </div>
+
+    </div>
+
+
+</div>
+

@@ -1,0 +1,59 @@
+<<<<<<< HEAD
+﻿@using System.Text
+@model CourseManagementSystem.Models.Lesson
+=======
+﻿@model CourseManagementSystem.Models.Lesson
+>>>>>>> forum2
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<h2>Lesson name</h2>
+
+<hr style="margin-bottom:0px;"/>
+<ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li><a href="#">Course name</a></li>
+    <li class="active">Lesson name</li>
+</ul>
+<hr style="margin-top:0px;"/>
+@if (Model.Text != "")
+{
+    <label style="word-wrap: break-word ">
+        @Model.Text
+    </label>
+}
+@if (Model.File != null)
+{
+
+
+   <iframe src="~/Pdf.aspx?pdfId=@Model.PdfFileId" style="width: 100%; height: 700px"></iframe>
+   
+}
+<hr/>
+<p>
+    When you are ready you can answer some @Html.ActionLink("Questions", "Test", "Lesson",new {lessonId = Model.LessonID}, null) according to this lesson.
+</p>
+<p>
+    If you have questions on lesson material you can go to <a href="#" style="font-size: large">Lesson forum</a> and discuss them with other students or lecturer of this course.
+</p>
+<p>
+    If you have questions that relate to the course in general you can ask them in <a href="#" style="font-size: large">Course forum</a>.
+</p>
+<hr />
+<h3>Additional materials</h3>
+
+@if (Model.VideoLink != "")
+{
+    var link = "https://www.youtube.com/embed/" + Model.VideoLink;
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="embed-responsive embed-responsive-16by9" style="margin-top: 20px;">
+            <iframe class="embed-responsive-item" src="@link" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+}
+
+<br style="clear: both;">

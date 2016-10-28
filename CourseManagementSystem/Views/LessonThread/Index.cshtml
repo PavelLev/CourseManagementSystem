@@ -1,0 +1,64 @@
+﻿@using CourseManagementSystem.Models
+@using Microsoft.AspNet.Identity
+@model CourseManagementSystem.Models.LessonThread
+
+
+<h2>Forum</h2>
+<h3>@Model.Name</h3>
+
+<hr style="margin-bottom:0px;" />
+
+<ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
+    <li>
+        @Html.ActionLink("Home", "Index", "Home")
+    </li>
+    <li>
+        @Html.ActionLink(Model.Lesson.Name, Model.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Lesson", new { id = Model.LessonId }, null)
+    </li>
+    <li>
+        @Html.ActionLink("Forum", "Forum", "Lesson", new { courseId = Model.LessonId }, null)
+    </li>
+    <li class="active">Topic</li>
+</ul>
+
+<hr style="margin-top:0px;" />
+
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9" style="padding:0px;">
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3" style="padding:0px;">
+        <div class="text-right">
+            <a href="#reply" class="btn btn-info" style="margin:0px;">Reply</a>
+        </div>
+    </div>
+</div>
+<div class="panel panel-primary" style="margin-top:20px;">
+    <div class="panel-heading">
+        Topic
+    </div>
+    <div class="panel-body" style="padding: 0px; background-color: #446e9b">
+        <div id="LessonMessages">
+            @foreach (LessonMessage message in Model.Messages)
+            {
+                Html.RenderPartial("~/Views/LessonMessage/Bar.cshtml", message);
+            }
+        </div>
+        @{
+            Html.RenderPartial("~/Views/LessonMessage/Create.cshtml", new LessonMessage() {ThreadId = Model.LessonThreadId});
+        }
+    </div>
+
+</div>
+<p><a name="reply"></a></p>
+<div class="row">
+    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-9" style="padding:0px;">
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-3" style="padding:0px;">
+        <div class="text-right">
+            <a href="#top" class="btn btn-info btn-lg" style="border-radius:100%;margin:0px;">Up</a>
+        </div>
+    </div>
+</div>
+
+<hr />
+<footer></footer>

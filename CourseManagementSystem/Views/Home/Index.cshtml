@@ -1,0 +1,20 @@
+﻿@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@model IEnumerable<CourseManagementSystem.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Course Management System</h2>
+<blockquote>
+    <p>Through the power of self-education you can be anything you want to be or do anything you want to do. Self-education power does not require money, fixed time or fixed life style. Options are extremely flexible. Rewards are unlimited. You can control your destiny.</p>
+    <small>Bob Webb</small>
+</blockquote>
+
+@foreach (var course in Model)
+{
+    Html.RenderPartial("~/Views/Course/Tile.cshtml", course);
+}
+<br style="clear: both;">

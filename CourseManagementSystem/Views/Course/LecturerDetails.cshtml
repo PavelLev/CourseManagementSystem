@@ -1,0 +1,71 @@
+﻿
+
+@using CourseManagementSystem.Models
+@model CourseManagementSystem.Models.Course
+
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+        <h1>Edit course</h1>
+    </div>
+
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        @Html.ActionLink("Student view", "Details", "Course", new { id = Model.CourseId }, new { @class = "btn btn-info", style = "margin-top:25px" })
+    </div>
+    <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        @Html.ActionLink("Check answers", "Check", "Course", new { courseId = Model.CourseId }, new { @class = "btn btn-info", style = "margin-top:25px" })
+    </div>
+</div>
+<hr style="height:5px;border:none;color:#446e9b;background-color:#446e9b;" />
+<br />
+<div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+    <div class="panel-body">
+        @{
+            Html.RenderPartial("~/Views/Course/Edit.cshtml", Model);
+        }
+
+    </div>
+</div>
+
+<div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+    <div class="panel-body">
+        @{
+            Html.RenderPartial("~/Views/Lesson/Create.cshtml", new LessonViewModel()
+            {
+                CourseId = Model.CourseId
+            });
+        }
+    </div>
+</div>
+
+<div id="lessonEditList">
+    @if (Model.Lessons.Count != 0)
+    {
+        foreach (var lesson in Model.Lessons)
+        {
+
+
+
+            Html.RenderPartial("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
+            {
+                Name = lesson.Name,
+                VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/" + lesson.VideoLink,
+                CourseId = lesson.CourseId ?? 0,
+                Text = lesson.Text,
+                LessonId = lesson.LessonID,
+                PdfFileId = lesson.PdfFileId,
+                TimeOfEdit = lesson.TimeOfEdit
+
+
+            });
+
+
+
+        }
+    }
+</div>
+

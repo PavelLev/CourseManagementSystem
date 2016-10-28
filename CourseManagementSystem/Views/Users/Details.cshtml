@@ -1,0 +1,116 @@
+﻿@using Microsoft.AspNet.Identity
+@model CourseManagementSystem.Models.User
+@{
+    ViewBag.Title = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" style="margin:0px;">
+    <div class="col-sm-3">
+        <h2 style="padding-top:10px;">My Profile</h2>
+    </div>
+    <div class="col-sm-5" style="padding-top: 20px;">
+    </div>
+    <div class="col-sm-4" style="padding-top: 15px;">
+        <dl class="dl-horizontal" style="margin-bottom:5px;">
+
+            <dt>
+                Username
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+
+            <dt>
+                Email
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt>
+            </dt>
+
+            <dd>
+                @Html.ActionLink("Edit", "Edit", new { id = User.Identity.GetUserId() })
+            </dd>
+        </dl>
+    </div>
+</div>
+
+
+
+<ul class="nav nav-tabs" style="margin-bottom: 20px;">
+    <li class="active"><a href="#subscriptions" data-toggle="tab" aria-expanded="true">Subscriptions</a></li>
+    <li class=""><a href="#mycourses" data-toggle="tab" aria-expanded="false">My courses</a></li>
+</ul>
+<div id="myTabContent" class="tab-content">
+    <div class="tab-pane fade active in" id="subscriptions">
+
+        @foreach (var enrollment in Model.Enrollments)
+        {
+            <div class="col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => enrollment.Course.Name)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="height: 100px;  overflow: hidden">
+                            <p>@Html.DisplayFor(model => enrollment.Course.Description)</p>
+                        </div>
+                        <br />
+                        <a href="#" class="btn btn-info">More</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+    <div class="tab-pane fade" id="mycourses">
+        @foreach (var course in Model.Hostings)
+        {
+            <div class="col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => course.Name)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="height: 100px;  overflow: hidden">
+                            <p>@Html.DisplayFor(model => course.Description)</p>
+                        </div>
+                        <br />
+                        <a href="#" class="btn btn-info">More</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">New course</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 100px;  overflow: hidden">
+                        <p></p>
+                    </div>
+                    <br />
+                    <a href="@Url.Action("Create", "Course")" class="btn btn-info">Create</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<br style="clear: both;">
+<p>
+    <a href="@Url.Action("Delete", "Users", new { id = User.Identity.GetUserId() })" class="btn btn-default">Delete account</a>
+</p>
+
+<script src="~/scripts/bootstrap.min.js"></script>
+<script src="~/scripts/jquery-3.1.1.min.js"></script>

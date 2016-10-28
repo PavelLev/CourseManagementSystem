@@ -1,0 +1,101 @@
+﻿@using Microsoft.Ajax.Utilities
+@using Microsoft.AspNet.Identity
+@model IEnumerable<CourseManagementSystem.Models.Course>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Course Management System</h2>
+<blockquote>
+    <p>Through the power of self-education you can be anything you want to be or do anything you want to do. Self-education power does not require money, fixed time or fixed life style. Options are extremely flexible. Rewards are unlimited. You can control your destiny.</p>
+    <small>Bob Webb</small>
+</blockquote>
+
+@foreach (var course in Model)
+{
+<<<<<<< HEAD
+    if (Request.IsAuthenticated)
+    {
+        if (course.UserId == User.Identity.GetUserId())
+        {
+            <div class="col-sm-3">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">@Html.DisplayFor(model => course.Name)</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div style="height: 100px; overflow: hidden">
+                            <p>@Html.DisplayFor(model => course.Description)</p>
+                        </div>
+                        <br/>
+                        <a href="@Url.Action("Edit", "Course", new {id = course.CourseId})" class="btn btn-info">Edit</a>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            if (course.Enrollments.FirstOrDefault(e => e.UserId == User.Identity.GetUserId()) == null)
+            {
+                <div class="col-sm-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Html.DisplayFor(model => course.Name)</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div style="height: 100px; overflow: hidden">
+                                <p>@Html.DisplayFor(model => course.Description)</p>
+                            </div>
+                            <br/>
+                            <a href="@Url.Action("Details", "Course", new {id = course.CourseId})" class="btn btn-info">More</a>
+                            @Html.ActionLink("Subscribe", "Subscribe", "Course", new {courseId = course.CourseId}, new {@class = "btn btn-primary"})
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="col-sm-3">
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">@Html.DisplayFor(model => course.Name)</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div style="height: 100px; overflow: hidden">
+                                <p>@Html.DisplayFor(model => course.Description)</p>
+                            </div>
+                            <br />
+                            <a href="@Url.Action("Details", "Course", new {id = course.CourseId})" class="btn btn-info">More</a>
+                            @Html.ActionLink("Move on!", null, null, null, new { @class = "btn btn-primary" })
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+    }
+    else
+    {
+        <div class="col-sm-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h3 class="panel-title">@Html.DisplayFor(model => course.Name)</h3>
+                </div>
+                <div class="panel-body">
+                    <div style="height: 100px; overflow: hidden">
+                        <p>@Html.DisplayFor(model => course.Description)</p>
+                    </div>
+                    <br />
+                    <a href="@Url.Action("Details", "Course", new {id = course.CourseId})" class="btn btn-info">More</a>
+                    @Html.ActionLink("Subscribe", "LogIn", "Account", new {returnUrl = Request.Url}, new { @class = "btn btn-primary" })
+                </div>
+            </div>
+        </div>
+
+    }
+
+=======
+    Html.RenderPartial("~/Views/Course/Tile.cshtml", course);
+>>>>>>> forum2
+}
