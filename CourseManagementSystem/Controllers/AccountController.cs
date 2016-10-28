@@ -26,13 +26,13 @@ namespace CourseManagementSystem.Controllers
             {
                 return RedirectToAction("Index","Home");
             }
-            return View();
+            return View("Register");
         }
         
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid) return View("Register", model);
             var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
@@ -61,7 +61,7 @@ namespace CourseManagementSystem.Controllers
                 return RedirectToAction("Index", "Home");
             }
             ViewBag.returnUrl = returnUrl;
-            return View();
+            return View("LogIn");
         }
 
         [HttpPost]
