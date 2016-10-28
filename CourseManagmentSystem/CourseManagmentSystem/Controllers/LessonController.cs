@@ -45,18 +45,27 @@ namespace CourseManagmentSystem.Controllers
             return View(lesson);
         }*/
 
-        public ActionResult Details()
+        public ActionResult Details(int? lessonId)
         {
-            return View();
+            if (lessonId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+            var lesson = db.Lessons.Find(lessonId);
+            if (lesson == null)
+            {
+                return HttpNotFound();
+            }
+            return View(lesson);
         }
         // GET: Lesson/Create
-        
+
 
         // POST: Lesson/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        
-     
+
+
         [HttpPost]
         public ActionResult Create()
         {
@@ -135,22 +144,11 @@ namespace CourseManagmentSystem.Controllers
                 return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
             }
 
+            var lesson = db.Lessons.Find(Parse(Request.Form["LessonId"]));
 
-            var lesson = new Lesson
-            {
-                Name = Request.Form["Name"],
-                TimeOfEdit = DateTime.Now,
-                LessonID = Parse(Request.Form["LessonId"]),
-                CourseId = Parse(Request.Form["CourseId"]),
-                Text = Request.Form["Text"],
-                VideoLink = YoutubeLink.GetVideoId(Request.Form["VideoLink"]),
-            };
- 
-            if (Request.Form["PdfFileId"] != "")
-            {
-                lesson.PdfFileId = Parse(Request.Form["PdfFileId"]);
-                lesson.File = db.PdfFiles.Find(lesson.PdfFileId);
-            }
+            lesson.Name = Request.Form["Name"];
+            lesson.VideoLink = YoutubeLink.GetVideoId(Request.Form["VideoLink"]);
+            lesson.TimeOfEdit = DateTime.Now;
 
             if (Request.Files["TxtFile"].ContentLength > 0)
             {
@@ -162,21 +160,34 @@ namespace CourseManagmentSystem.Controllers
 
             if (Request.Files["PdfFile"].ContentLength > 0)
             {
-                lesson.File = new PdfFile()
+                if (lesson.PdfFileId == null)
                 {
-                    PdfFileId = Parse(Request.Form["PdfFileId"]),
-                    Content = new BinaryReader(Request.Files["PdfFile"].InputStream).ReadBytes(Request.Files["PdfFile"].ContentLength),
-                    ContentLenght = Request.Files["PdfFile"].ContentLength,
-                    ContentType = Request.Files["PdfFile"].ContentType,
-                    FileName = Request.Files["PdfFile"].FileName,
-                };
-
-                db.Entry(lesson.File).State = EntityState.Modified;
-                db.SaveChanges();
+                    lesson.File = new PdfFile()
+                    {
+                        Content =
+                            new BinaryReader(Request.Files["PdfFile"].InputStream).ReadBytes(
+                                Request.Files["PdfFile"].ContentLength),
+                        ContentLenght = Request.Files["PdfFile"].ContentLength,
+                        ContentType = Request.Files["PdfFile"].ContentType,
+                        FileName = Request.Files["PdfFile"].FileName,
+                    };
+                    db.PdfFiles.Add(lesson.File);
+                    db.SaveChanges();
+                }
+                else
+                {
+                    lesson.File.Content =
+                        new BinaryReader(Request.Files["PdfFile"].InputStream).ReadBytes(
+                            Request.Files["PdfFile"].ContentLength);
+                    lesson.File.ContentLenght = Request.Files["PdfFile"].ContentLength;
+                    lesson.File.ContentType = Request.Files["PdfFile"].ContentType;
+                    lesson.File.FileName = Request.Files["PdfFile"].FileName;
+                    db.Entry(lesson.File).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
             }
 
-            db.Entry(lesson).State = EntityState.Modified;
-            db.SaveChanges();
+            
 
             return PartialView("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
             {

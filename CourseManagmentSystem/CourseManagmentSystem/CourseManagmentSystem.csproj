@@ -440,6 +440,7 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Pdf.aspx" />
     <Content Include="scripts\additional-methods.js" />
     <Content Include="scripts\additional-methods.min.js" />
     <Content Include="scripts\ai.0.22.19-build00125.js" />
@@ -522,6 +523,13 @@
     </Compile>
     <Compile Include="Models\LessonViewModel.cs" />
     <Compile Include="Models\PdfFile.cs" />
+    <Compile Include="Pdf.aspx.cs">
+      <DependentUpon>Pdf.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Pdf.aspx.designer.cs">
+      <DependentUpon>Pdf.aspx</DependentUpon>
+    </Compile>
     <Compile Include="YoutubeLink.cs" />
     <Compile Include="SignalR\Hubs\MyHub.cs" />
     <Compile Include="Migrations\201610211141377_MigrateDB.cs" />

@@ -3,52 +3,50 @@
     var questionEditId = "QuestionEdit" + Model.QuestionID;
 }
 <div id="@questionEditId">
-    
-    @using (Ajax.BeginForm("Edit", "Question", new AjaxOptions()
-    {
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.ReplaceWith,
-        UpdateTargetId = questionEditId
 
-    }))
-    {
-        @Html.AntiForgeryToken()
 
-        <div class="form-horizontal">
-            <h4>Question</h4>
-            <hr/>
-            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
-            @Html.HiddenFor(model => model.QuestionID)
+    <div class="form-horizontal">
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.Text, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Text, new {htmlAttributes = new {@class = "form-control"}})
-                    @Html.ValidationMessageFor(model => model.Text, "", new {@class = "text-danger"})
+        <div class="form-group">
+            @using (Ajax.BeginForm("Edit", "Question", new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = questionEditId
+
+            }, new {style="margin-right:100px"}))
+            {
+                @Html.AntiForgeryToken()
+
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(model => model.QuestionID)
+  
+                <div class="col-lg-10 col-md-10 col-sm-6 col-xs-6">
+                    <input class="form-control text-box single-line" data-val="true" data-val-required="The Question field is required." name="Text" value="@Model.Text" type="text"  style="min-width:100%" >
+                    @Html.ValidationMessageFor(model => model.Text)
                 </div>
-            </div>
-            @Html.HiddenFor(model=> model.QuestionID)
-            @Html.HiddenFor(model => model.LessonId)
+                @Html.HiddenFor(model => model.QuestionID)
+                @Html.HiddenFor(model => model.LessonId)
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default"/>
+                <div class="text-right col-lg-1 col-md-1 col-sm-2 col-xs-2" style="margin-right: 50px">
+                    <input type='button' value='Save' class="btn btn-info" />
                 </div>
-            </div>
+
+            }
+            @using (Ajax.BeginForm("Delete", "Question", new { questionId = Model.QuestionID }, new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.Replace,
+                UpdateTargetId = questionEditId
+            }, new {  }))
+            {
+
+                <input type="submit" value="Delete" class="btn btn-danger" />
+            }
         </div>
-      
-    }
-    @using (Ajax.BeginForm("Delete", "Question", new { id = Model.QuestionID }, new AjaxOptions()
-    {
-    HttpMethod = "POST",
-    InsertionMode = InsertionMode.Replace,
-    UpdateTargetId = questionEditId
-    }))
-    {
 
-    <input type="submit" value="Delete" class="btn-danger" />
-    }
+    </div>
 
-    
+
 </div>
 

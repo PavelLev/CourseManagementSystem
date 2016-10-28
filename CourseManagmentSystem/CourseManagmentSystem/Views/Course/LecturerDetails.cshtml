@@ -1,4 +1,5 @@
 ﻿
+
 @using CourseManagmentSystem.Models
 @model CourseManagmentSystem.Models.Course
 
@@ -7,20 +8,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
-@{
-    Html.RenderPartial("~/Views/Course/Edit.cshtml",Model);
-}
+<h1>Edit course</h1>
+<hr style="height:5px;border:none;color:#446e9b;background-color:#446e9b;" />
+<br />
+<div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+    <div class="panel-body">
+        @{
+            Html.RenderPartial("~/Views/Course/Edit.cshtml", Model);
+        }
 
+    </div>
+</div>
 
-
-<div id="lessonCreation">
-    @{
-        Html.RenderPartial("~/Views/Lesson/Create.cshtml",new LessonViewModel()
-        {
-            CourseId = Model.CourseID
-        });
-    }
+<div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;">
+    <div class="panel-body">
+        @{
+            Html.RenderPartial("~/Views/Lesson/Create.cshtml", new LessonViewModel()
+            {
+                CourseId = Model.CourseID
+            });
+        }
+    </div>
 </div>
 
 <div id="lessonEditList">
@@ -28,32 +36,25 @@
     {
         foreach (var lesson in Model.Lessons)
         {
-            
-          
-               
-                    Html.RenderPartial("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
-                    {
-                        Name = lesson.Name,
-                        VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/"+lesson.VideoLink,
-                        CourseId = lesson.CourseId,
-                        Text = lesson.Text,
-                        LessonId = lesson.LessonID,
-                        PdfFileId = lesson.PdfFileId,
-                        TimeOfEdit = lesson.TimeOfEdit
 
 
-                    });
-                
 
-                 
-            }
+            Html.RenderPartial("~/Views/Lesson/Edit.cshtml", new LessonViewModel()
+            {
+                Name = lesson.Name,
+                VideoLink = lesson.VideoLink == "" ? "" : "https://youtu.be/" + lesson.VideoLink,
+                CourseId = lesson.CourseId,
+                Text = lesson.Text,
+                LessonId = lesson.LessonID,
+                PdfFileId = lesson.PdfFileId,
+                TimeOfEdit = lesson.TimeOfEdit
+
+
+            });
+
+
+
         }
- </div>                   
-
-
-
-
-
-
-
+    }
+</div>
 

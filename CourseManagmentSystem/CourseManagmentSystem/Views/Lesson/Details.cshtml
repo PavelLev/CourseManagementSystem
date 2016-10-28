@@ -1,4 +1,5 @@
-﻿
+﻿@using System.Text
+@model CourseManagmentSystem.Models.Lesson
 @{
     ViewBag.Title = "Details";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -14,19 +15,20 @@
     <li class="active">Lesson name</li>
 </ul>
 <hr style="margin-top:0px;"/>
-<div style="text-align: justify">
-    Lorem ipsum dolor sit amet, pro eu duis primis inimicus, ei dicta veniam consequuntur eos. Saperet pertinax mea ex, quo primis aeterno volutpat cu. Vocibus periculis neglegentur eam eu, sit modo habeo affert id. Pri veritus admodum legendos an, ex duo deleniti democritum. Pertinacia maiestatis liberavisse an per, duo eu iusto cetero. Te vim nibh graece efficiendi, tacimates recusabo est te, id facilis placerat persecuti quo. Nostrum contentiones et ius.
+@if (Model.Text != "")
+{
+    <label style="word-wrap: break-word ">
+        @Model.Text
+    </label>
+}
+@if (Model.File != null)
+{
 
-    Fugit inani mundi usu in. Ut facete meliore his. Dicant scriptorem eu his, vix mollis vivendo sadipscing cu, in timeam pertinacia has. Id euismod detraxit qui. Ea usu facilisis suavitate, no quo dicit menandri. Nec ut appareat partiendo, ei cum falli nostrud facilis.
 
-    Te graeco gloriatur pri, augue reprimique in nec, te tantas accumsan temporibus eos. Albucius placerat eam id, ea zril inciderint nam. Debet oporteat adolescens ad pri, in eam assum dicunt, omnium sententiae sit et. An quo illum oporteat pertinax, sea atqui detracto insolens ut, ei sea eripuit accommodare. Vix ea meis falli comprehensam, vix rebum euripidis te.
-
-    Id his ceteros invidunt suavitate. Oratio exerci dictas ut eos. Ne mel solet doctus vivendo, saepe legere mei eu, sint idque dolores eu his. Est malorum perpetua te, duo eu propriae platonem philosophia. Eos an atqui dolores, offendit delicatissimi an usu. Id mei corpora accusamus constituam, simul vivendo convenire ea mei.
-
-    Per at adipisci omittantur, at duo facilisi incorrupte, at vidisse singulis suavitate nec. Ea duo probatus platonem, no qui minim hendrerit, ex his mazim scaevola. Propriae ponderum vivendum te pro, voluptua repudiare vis eu, labore dicunt at eam. An sint summo partiendo vel.
-
-</div>
-<hr />
+   <iframe src="~/Pdf.aspx?pdfId=@Model.PdfFileId" style="width: 100%; height: 700px"></iframe>
+   
+}
+<hr/>
 <p>
     When you are ready you can answer some <a href="#" style="font-size: large">Questions</a> according to this lesson.
 </p>
@@ -39,18 +41,15 @@
 <hr />
 <h3>Additional materials</h3>
 
-<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="embed-responsive embed-responsive-16by9" style="margin-top:20px;">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/gOMhN-hfMtY" frameborder="0" allowfullscreen ></iframe>
-    </div>
-</div>
+@if (Model.VideoLink != "")
+{
+    var link = "https://www.youtube.com/embed/" + Model.VideoLink;
 
-<br style="clear: both;">
-
-<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-    <div class="embed-responsive embed-responsive-16by9" style="margin-top:20px;">
-        <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/_Yhyp-_hX2s" frameborder="0" allowfullscreen ></iframe>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="embed-responsive embed-responsive-16by9" style="margin-top: 20px;">
+            <iframe class="embed-responsive-item" src="@link" frameborder="0" allowfullscreen></iframe>
+        </div>
     </div>
-</div>
+}
 
 <br style="clear: both;">

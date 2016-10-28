@@ -6,91 +6,99 @@
     var formIdQuery = '#' + formId;
     var lessonEditId = "LessonEdit" + Model.LessonId;
 }
-<div id="@lessonEditId">
-    
-    <form method="post" id="@formId">
-
-        @Html.AntiForgeryToken()
-
-        <div class="form-horizontal">
-            <h4>LessonViewModel</h4>
-            <hr/>
-            @Html.ValidationSummary(true, "", new {@class = "text-danger"})
+<div class="panel panel-primary" style="margin-bottom:20px;border-width:5px;"  id="@lessonEditId">
+    <div class="panel-body"style="margin-left:50px; margin-right: 5%">
+        <form  id="@formId" class="form-horizontal" method='post'>
+            
             <div class="form-group">
-                @Html.LabelFor(model => model.Name, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.Name, new {htmlAttributes = new {@class = "form-control", id = "name"}})
-                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "text-danger"})
+                <h2>@Model.Name</h2>
+            </div>
+  
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                    @Html.LabelFor(model => model.Name)
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                    @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", id = "name", style = "min-width:100%", type = "text", placeholder = "Current lesson name" } })
+                    @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.VideoLink, htmlAttributes: new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.EditorFor(model => model.VideoLink, new {htmlAttributes = new {@class = "form-control", id = "videoLink"}})
-                    @Html.ValidationMessageFor(model => model.VideoLink, "", new {@class = "text-danger"})
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                    @Html.LabelFor(model => model.VideoLink)
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                    @Html.EditorFor(model => model.VideoLink, new { htmlAttributes = new { @class = "form-control", id = "videoLink", style = "min-width:100%", type = "text", placeholder = "Current video link" } })
+                    @Html.ValidationMessageFor(model => model.VideoLink, "", new { @class = "text-danger" })
                 </div>
             </div>
 
-            @Html.HiddenFor(model => model.LessonId, new {id = "lessonId"})
-            @Html.HiddenFor(model => model.CourseId, new {id = "courseId"})
-            @Html.HiddenFor(model => model.PdfFileId, new {id = "pdfFileId"})
-            @Html.HiddenFor(model => model.Text, new {id = "text"})
+                @Html.HiddenFor(model => model.LessonId, new { id = "lessonId" })
 
             <div class="form-group">
-                @Html.LabelFor(model => model.TxtFile, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.TxtFile, new {type = "file", id = "fileTxt"})
-                    @Html.ValidationMessageFor(model => model.TxtFile, "You can only upload TXT/MD", new {id = "validateEditTxtFile", style = "display:none"})
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                    @Html.LabelFor(model => model.TxtFile)
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                    @Html.TextBoxFor(model => model.TxtFile, new { type = "file", id = "fileTxt" })
+                    @Html.ValidationMessageFor(model => model.TxtFile, "You can only upload TXT/MD", new { id = "validateEditTxtFile", style = "display:none" })
                 </div>
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.PdfFile, new {@class = "control-label col-md-2"})
-                <div class="col-md-10">
-                    @Html.TextBoxFor(model => model.PdfFile, new {type = "file", id = "filePdf"})
-                    @Html.ValidationMessageFor(model => model.PdfFile, "You can only upload PDF", new {id = "validateEditPdfFile", style = "display:none"})
+                <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
+                    @Html.LabelFor(model => model.PdfFile)
+                </div>
+                <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
+                    @Html.TextBoxFor(model => model.PdfFile, new { type = "file", id = "filePdf" })
+                    @Html.ValidationMessageFor(model => model.PdfFile, "You can only upload PDF", new { id = "validateEditPdfFile", style = "display:none" })
                 </div>
             </div>
 
 
             <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
-                    <input type="submit" value="Save" class="btn btn-default"/>
+                <div class="text-right col-lg-12 col-md-12 col-sm-12 col-xs-12">
                     @if (Model.TimeOfEdit != null)
                     {
-                        <text> Last edited @Model.TimeOfEdit</text>
+                        <span style="float:left"> Last edited @Model.TimeOfEdit</span>
                     }
+                    <input type="submit" value="Save" class="btn btn-info"/>
                 </div>
             </div>
+        </form>
+
+       
+        
+        <div class="form-group">
+            @{
+                var db = new AppDbContext();
+
+                Html.RenderPartial("~/Views/Question/Create.cshtml", new Question()
+                {
+                    LessonId = Model.LessonId
+                });
+            }
         </div>
-    </form>
-
-
-    @using (Ajax.BeginForm("Delete", "Lesson", new {id = Model.LessonId}, new AjaxOptions()
-    {
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.Replace,
-        UpdateTargetId = lessonEditId
-    }))
-    {
-        <input type="submit" value="Delete" class="btn-danger"/>
-    }
-
-    <div id="questionCreate">
-        @{
-            var db = new AppDbContext();
-
-            Html.RenderPartial("~/Views/Question/Create.cshtml", new Question()
+        <div id="questionList">
+            @foreach (var question in db.Lessons.Find(Model.LessonId).Questions)
             {
-                LessonId = Model.LessonId
-            });
-        }
-    </div>
-    <div id="questionList">
-          @foreach (var question in db.Lessons.Find(Model.LessonId).Questions)
-          {
-              Html.RenderPartial("~/Views/Question/Edit.cshtml", question);
-          }
+                Html.RenderPartial("~/Views/Question/Edit.cshtml", question);
+            }
+        </div>
+
+        <div class="form-group">
+            @using (Ajax.BeginForm("Delete", "Lesson", new { id = Model.LessonId }, new AjaxOptions()
+            {
+                HttpMethod = "POST",
+                InsertionMode = InsertionMode.ReplaceWith,
+                UpdateTargetId = lessonEditId
+            }))
+            {
+                <input type="submit" value="Delete lesson" class="btn btn-danger" />
+            }
+        </div>
+
     </div>
 </div>
 
@@ -110,7 +118,7 @@
                             $("#validateEditTxtFile").show();
                             $("#validateEditPdfFile").show();
                         } else {
-                            response = response.substring(response.indexOf(">") + 1, response.indexOf("</form>"));
+                            response = response.substring(response.indexOf("method='post'>") + 14, response.indexOf("</form>"));
                             alert(response);
                             $("@formIdQuery").html(response);
                         }
