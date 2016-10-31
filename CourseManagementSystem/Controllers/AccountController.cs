@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CourseManagementSystem.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
@@ -34,26 +36,44 @@ namespace CourseManagementSystem.Controllers
         {
             if (!ModelState.IsValid) return View("Register", model);
             var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
+            
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)
             {
-                var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                AuthentictionManager.SignOut();
-                AuthentictionManager.SignIn(new AuthenticationProperties()
-                {
-                    IsPersistent = true
-                }, claim);
-                
-                ReloadBrowserTabs();
+                var code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                var callbackUrl = Url.Action("ConfirmedEmail", "Account", new {id = user.Id, code = code},
+                    Request.Url?.Scheme);
+                await
+                    UserManager.SendEmailAsync(user.Id, "Confirm your account",
+                        "Please confirm your account by clicking this <a href=\""
+                        + callbackUrl + "\">link</a>");
 
-                return RedirectToAction("Index", "Home");
+                return View("DisplayEmail");
+
             }
             else
-                result.Errors.ForEach(err => ModelState.AddModelError("", err));
+                ListExtensions.ForEach(result.Errors, err => ModelState.AddModelError("", err));
             return View(model);
         }
 
-        
+        public async Task<ActionResult> ConfirmedEmail(string id, string code)
+        {
+            if (id == null && code == null) return RedirectToAction("Index", "Home");
+
+            var result = await UserManager.ConfirmEmailAsync(id, code);
+            if (!result.Succeeded) return RedirectToAction("Index", "Home");
+            var user = UserManager.FindById(id);
+            var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+            AuthentictionManager.SignOut();
+            AuthentictionManager.SignIn(new AuthenticationProperties()
+            {
+                IsPersistent = true
+            }, claim);
+
+            ReloadBrowserTabs();
+
+            return RedirectToAction("Index", "Home");
+        }
         public ActionResult LogIn(string returnUrl)
         {
             if (Request.IsAuthenticated)
@@ -77,19 +97,27 @@ namespace CourseManagementSystem.Controllers
                 }
                 else
                 {
-                    var claim = await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
-                    AuthentictionManager.SignOut();
-                    AuthentictionManager.SignIn(new AuthenticationProperties()
+                    if (user.EmailConfirmed == true)
                     {
-                        IsPersistent = true
-                    }, claim);
+                        var claim =
+                            await UserManager.CreateIdentityAsync(user, DefaultAuthenticationTypes.ApplicationCookie);
+                        AuthentictionManager.SignOut();
+                        AuthentictionManager.SignIn(new AuthenticationProperties()
+                        {
+                            IsPersistent = true
+                        }, claim);
 
-                    ReloadBrowserTabs();
+                        ReloadBrowserTabs();
 
-                    if (IsNullOrEmpty(returnUrl))
-                        return RedirectToAction("Index", "Home");
+                        if (IsNullOrEmpty(returnUrl))
+                            return RedirectToAction("Index", "Home");
 
-                    return Redirect(returnUrl);
+                        return Redirect(returnUrl);
+                    }
+                    else
+                    {
+                        return View("DisplayEmail");
+                    }
                 }
             }
 
