@@ -493,6 +493,7 @@
     <Content Include="Views\Users\Hostings.cshtml.orig" />
     <Content Include="Views\Users\Subscriptions.cshtml" />
     <Content Include="Views\Users\Subscriptions.cshtml.orig" />
+    <Content Include="Views\Account\DisplayEmail.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

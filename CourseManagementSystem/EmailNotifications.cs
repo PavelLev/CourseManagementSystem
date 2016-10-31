@@ -4,10 +4,11 @@ using System.Linq;
 using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace CourseManagementSystem
 {
-    public class EmailNotifications
+    public class EmailNotifications : IIdentityMessageService
     {
         private static readonly SmtpClient SmtpClient = new SmtpClient();
 
@@ -19,6 +20,11 @@ namespace CourseManagementSystem
             message.Body = body;
             message.IsBodyHtml = true;
             return SmtpClient.SendMailAsync(message);
+        }
+
+        public Task SendAsync(IdentityMessage message)
+        {
+            return Send(message.Destination,message.Subject,message.Body);
         }
     }
 }
