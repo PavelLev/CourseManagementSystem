@@ -47,9 +47,12 @@
         </div>
     </div>
     <div id="CourseThreads" class="panel-body" style="padding:0px; background-color: white">
-        @foreach (CourseThread thread in Model.Threads)
-        {
-            Html.RenderPartial("~/Views/CourseThread/Bar.cshtml", thread);
+        @{
+            IEnumerable<CourseThread> threads = Model.Threads.OrderByDescending(thread => thread.LastChangeDateTime);
+            foreach (CourseThread thread in threads)
+            {
+                Html.RenderPartial("~/Views/CourseThread/Bar.cshtml", thread);
+            }
         }
     </div>
 </div>

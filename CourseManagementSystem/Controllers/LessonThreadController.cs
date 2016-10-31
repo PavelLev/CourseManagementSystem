@@ -32,7 +32,7 @@ namespace CourseManagementSystem.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create([Bind(Include = "CourseId, Name")] LessonThread thread)
+        public ActionResult Create([Bind(Include = "LessonId, Name")] LessonThread thread)
         {
             thread.UserId = User.Identity.GetUserId();
             thread.User = db.Users.Find(thread.UserId);

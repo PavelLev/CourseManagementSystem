@@ -12,12 +12,12 @@
         <div class="form-group" style="margin-bottom:0px;">
             @Html.HiddenFor((model) => model.CourseId)
             <div class="col-lg-10 col-md-8 col-sm-8 col-xs-6">
-                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control", style = "min-width:60%", placeholder = "Enter a topic..." } })
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new {@class = "form-control", style = "min-width:60%", placeholder = "Enter a new thread name..." } })
                 @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
             </div>
             <div class="col-lg-1 col-md-2  col-sm-2 col-xs-3">
                 <div class="text-right">
-                    <button type="submit" class="btn btn-info">Submit</button>
+                    <button type="submit" class="btn btn-info" onclick="setTimeout(() => { $('#Name').val('') }, 0)">Submit</button>
                 </div>
             </div>
             <div class="col-lg-1 col-md-2  col-sm-2 col-xs-3">

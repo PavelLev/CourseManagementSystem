@@ -26,10 +26,9 @@
                 else
                 {
                     @Html.ActionLink("More", "Details", "Course", new { id = Model.CourseId }, new { @class = "btn btn-primary" })
-                    if (Model.Enrollments.FirstOrDefault(e => e.UserId == User.Identity.GetUserId()) == null)
-                    {
-                        @Html.ActionLink("Subscribe", "Subscribe", "Course", new { courseId = Model.CourseId }, new { @class = "btn btn-primary" })
-                    }
+                    @(Model.Enrollments.FirstOrDefault(e => e.UserId == User.Identity.GetUserId()) == null ? 
+                        Html.ActionLink("Subscribe", "Subscribe", "Course", new {courseId = Model.CourseId}, new {@class = "btn btn-primary"}) : 
+                        Html.ActionLink("Unsubscribe", "Unsubscribe", "Course", new {courseId = Model.CourseId}, new {@class = "btn btn-primary"}))
                 }
             }
         </div>

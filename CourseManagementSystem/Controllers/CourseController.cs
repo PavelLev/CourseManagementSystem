@@ -68,9 +68,13 @@ namespace CourseManagementSystem.Controllers
             var enrollment = new Enrollment {UserId = User.Identity.GetUserId(), CourseId = courseId};
             db.Enrollments.Add(enrollment);
             db.SaveChanges();
-            await EmailNotifications.Send(course.User.Email,
-                "Subscription",
-                "User " + User.Identity.GetUserName() + " has subscribed to your course " + course.Name);
+            if (course.User != null)
+            {
+                await EmailNotifications.Send(course.User.Email,
+                    "Subscription",
+                    "User " + User.Identity.GetUserName() + " has subscribed to your course " + course.Name);
+            }
+            
             return RedirectToAction("Details", new {id = courseId});
         }
 
@@ -95,10 +99,13 @@ namespace CourseManagementSystem.Controllers
 
             db.SaveChanges();
 
-            await EmailNotifications.Send(course.User.Email,
-                "Subscription",
-                "User " + User.Identity.GetUserName() + " has unsubscribed to your course " + course.Name);
-            return RedirectToAction("Details", new { id = courseId });
+            if (course.User != null)
+            {
+                await EmailNotifications.Send(course.User.Email,
+                    "Subscription",
+                    "User " + User.Identity.GetUserName() + " has unsubscribed to your course " + course.Name);
+            }
+            return RedirectToAction("Index", "Home");
         }
 
         // GET: Course/Edit/5

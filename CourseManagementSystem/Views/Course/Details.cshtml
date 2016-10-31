@@ -50,16 +50,27 @@
     <li>@Html.ActionLink("Home", "Index", "Home")</li>
     <li class="active">Course name</li>
 </ul>
-<div class="panel panel-primary" style="border-width:5px;">
-    <div class="panel-body">
-        <div class="list-group" style="font-size: large;margin-bottom:0;">
-            @foreach (var lesson in Model.Lessons)
-            {
-                Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
-            }
+@if (Model.Lessons.Count != 0)
+{
+    <div class="panel panel-primary" style="border-width: 5px;">
+        <div class="panel-body">
+            <div class="list-group" style="font-size: large; margin-bottom: 0;">
+                @foreach (var lesson in Model.Lessons)
+                {
+                    Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
+                }
+            </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div>
+        Lecturer hasn't added any material yet.
+    </div>
+    <br/>
+}
+
 <p>
     If you have questions that relate to the course in general and don't relate to any particular lesson, you can ask them in a <a href="@Url.Action("Forum", "Course", new {courseId = Model.CourseId})" style="font-size: large">Course forum</a>.
 </p>

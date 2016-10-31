@@ -17,7 +17,7 @@
         @Html.ActionLink("Home", "Index", "Home")
     </li>
     <li>
-        @Html.ActionLink(Model.Course.Name, Model.Course.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Lesson", new {id = Model.CourseId}, null)
+        @Html.ActionLink(Model.Course.Name, Model.Course.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Course", new {id = Model.CourseId}, null)
     </li>
     <li>
         @Html.ActionLink(Model.Name, "Details", "Lesson", new { lessonId = Model.LessonID }, null)
@@ -49,10 +49,13 @@
             </div>
         </div>
     </div>
-    <div id="CourseThreads" class="panel-body" style="padding:0px; background-color: white">
-        @foreach (LessonThread thread in Model.Threads)
-        {
-            Html.RenderPartial("~/Views/LessonThread/Bar.cshtml", thread);
+    <div id="LessonThreads" class="panel-body" style="padding:0px; background-color: white">
+        @{
+            IEnumerable<LessonThread> threads = Model.Threads.OrderByDescending(thread => thread.LastChangeDateTime);
+            foreach (LessonThread thread in threads)
+            {
+                Html.RenderPartial("~/Views/LessonThread/Bar.cshtml", thread);
+            }
         }
     </div>
 </div>
