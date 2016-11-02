@@ -14,6 +14,7 @@ namespace CourseManagementSystem.Models
         public string Name { get; set; }
         [Required]
         [Display(Name = "Description")]
+        public bool Activated { get; set; }
         public string Description { get; set; }
         public string UserId { get; set; }
         public virtual User User { get; set; }

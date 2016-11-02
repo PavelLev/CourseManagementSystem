@@ -6,15 +6,16 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-<h2>Lesson name</h2>
-
-<hr style="margin-bottom:0px;"/>
+<hr />
 <ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
     <li>@Html.ActionLink("Home", "Index", "Home")</li>
     <li>@Html.ActionLink(Model.Course.Name, Model.Course.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Course", new { id = Model.CourseId }, null)</li>
-    <li class="active">Lesson name</li>
+    <li class="active">@Model.Name</li>
 </ul>
+
+<h2>@Model.Name</h2>
+
+
 <hr style="margin-top:0px;"/>
 @if (Model.Text != "")
 {
@@ -28,9 +29,12 @@
    
 }
 <hr/>
-<p>
-    When you are ready you can answer some @Html.ActionLink("Questions", "Test", "Lesson",new {lessonId = Model.LessonID}, null) according to this lesson.
-</p>
+@if (Model.Course.Activated)
+{
+    <p>
+        When you are ready you can answer some @Html.ActionLink("Questions", "Test", "Lesson", new {lessonId = Model.LessonID}, null) according to this lesson.
+    </p>
+}
 <p>
     If you have questions on lesson material you can go to @Html.ActionLink("Lesson forum", "Forum", "Lesson", new { lessonId = Model.LessonID }, null) and discuss them with other students or lecturer of this course.
 </p>

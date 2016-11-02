@@ -12,6 +12,7 @@ namespace CourseManagementSystem.Models
     {
         public string Name { get; set; }
         public override string Email { get; set; }
+        public bool EmailNotifications { get; set; }
         public virtual ICollection<Enrollment> Enrollments { get; set; }
         public virtual ICollection<Course> Hostings { get; set; }
 

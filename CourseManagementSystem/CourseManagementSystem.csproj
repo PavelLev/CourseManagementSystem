@@ -415,6 +415,14 @@
     <Compile Include="Migrations\201610281808427_qwe.Designer.cs">
       <DependentUpon>201610281808427_qwe.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201611021405237_CourseTableUpdate.cs" />
+    <Compile Include="Migrations\201611021405237_CourseTableUpdate.Designer.cs">
+      <DependentUpon>201611021405237_CourseTableUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201611021820148_UserTableUpdate.cs" />
+    <Compile Include="Migrations\201611021820148_UserTableUpdate.Designer.cs">
+      <DependentUpon>201611021820148_UserTableUpdate.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AppDbContext.cs" />
     <Compile Include="Models\ApplicationUserManager.cs" />
@@ -490,7 +498,6 @@
     <Content Include="Views\Shared\Test.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml.orig" />
-    <Content Include="Views\Users\Delete.cshtml" />
     <Content Include="Views\Users\Details.cshtml" />
     <Content Include="Views\Users\Edit.cshtml" />
     <Content Include="Views\Users\Hostings.cshtml" />
@@ -498,6 +505,8 @@
     <Content Include="Views\Users\Subscriptions.cshtml" />
     <Content Include="Views\Users\Subscriptions.cshtml.orig" />
     <Content Include="Views\Account\DisplayEmail.cshtml" />
+    <Content Include="Views\Course\ActivationButton.cshtml" />
+    <Content Include="Views\Users\Notifications.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -511,6 +520,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201610281808427_qwe.resx">
       <DependentUpon>201610281808427_qwe.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611021405237_CourseTableUpdate.resx">
+      <DependentUpon>201611021405237_CourseTableUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201611021820148_UserTableUpdate.resx">
+      <DependentUpon>201611021820148_UserTableUpdate.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

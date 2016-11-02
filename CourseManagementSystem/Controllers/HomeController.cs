@@ -14,6 +14,13 @@ namespace CourseManagementSystem.Controllers
         // GET: Home
         public ActionResult Index()
         {
+            if (!Request.IsAuthenticated) return View(db.Courses.ToList());
+
+            var user = db.Users.Find(User.Identity.GetUserId());
+            if (user == null)
+            {
+                return RedirectToAction("LogOut", "Account");
+            }
             return View(db.Courses.ToList());
         }
         protected override void Dispose(bool disposing)

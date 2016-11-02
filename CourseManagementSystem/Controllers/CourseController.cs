@@ -40,15 +40,19 @@ namespace CourseManagementSystem.Controllers
         public async Task<ActionResult> Create([Bind(Include = "CourseId,name,description")] Course course)
         {
             course.UserId = User.Identity.GetUserId();
+            course.Activated = true;
             if (!ModelState.IsValid)
                 return View(course);
             db.Courses.Add(course);
             db.SaveChanges();
             foreach (var user in db.Users.ToList())
             {
-                await EmailNotifications.Send(user.Email,
-                    "New course",
-                    "New course " + course.Name + " has opened. Check it out!");
+                if (user.EmailNotifications)
+                {
+                    await EmailNotifications.Send(user.Email,
+                        "New course",
+                        "New course " + course.Name + " has opened. Check it out!");
+                }
             }
             return RedirectToAction("Edit", new { id = course.CourseId });
         }
@@ -68,13 +72,14 @@ namespace CourseManagementSystem.Controllers
             var enrollment = new Enrollment {UserId = User.Identity.GetUserId(), CourseId = courseId};
             db.Enrollments.Add(enrollment);
             db.SaveChanges();
-            if (course.User != null)
+            if (course.User == null) return RedirectToAction("Details", new {id = courseId});
+            if (course.User.EmailNotifications)
             {
                 await EmailNotifications.Send(course.User.Email,
                     "Subscription",
                     "User " + User.Identity.GetUserName() + " has subscribed to your course " + course.Name);
             }
-            
+
             return RedirectToAction("Details", new {id = courseId});
         }
 
@@ -99,12 +104,15 @@ namespace CourseManagementSystem.Controllers
 
             db.SaveChanges();
 
-            if (course.User != null)
+            if (course.User == null) return RedirectToAction("Index", "Home");
+
+            if (course.User.EmailNotifications)
             {
                 await EmailNotifications.Send(course.User.Email,
                     "Subscription",
                     "User " + User.Identity.GetUserName() + " has unsubscribed to your course " + course.Name);
             }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -131,9 +139,12 @@ namespace CourseManagementSystem.Controllers
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "CourseID,name,description")] Course course)
+        public ActionResult Edit(Course editedCourse)
         {
-            if (!ModelState.IsValid) return View(course);
+            if (!ModelState.IsValid) return View(editedCourse);
+            var course = db.Courses.Find(editedCourse.CourseId);
+            course.Name = editedCourse.Name;
+            course.Description = editedCourse.Description;
             db.Entry(course).State = EntityState.Modified;
             db.SaveChanges();
             return PartialView("Edit", course);
@@ -158,6 +169,14 @@ namespace CourseManagementSystem.Controllers
             return View(course);
         }
 
+        public ActionResult Activation(int id)
+        {
+            var course = db.Courses.Find(id);
+            course.Activated = !course.Activated;
+            db.Entry(course).State = EntityState.Modified;
+            db.SaveChanges();
+            return PartialView("ActivationButton", course);
+        }
         // POST: Course/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]

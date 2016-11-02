@@ -9,10 +9,15 @@
 }
 
 <div class="row">
-    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <h1>Edit course</h1>
     </div>
 
+    <div id="activationButton" class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
+        @{
+            Html.RenderPartial("ActivationButton", Model);
+        }
+    </div>
     <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2">
         @Html.ActionLink("Student view", "Details", "Course", new { id = Model.CourseId }, new { @class = "btn btn-info", style = "margin-top:25px" })
     </div>

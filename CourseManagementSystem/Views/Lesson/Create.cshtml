@@ -30,7 +30,7 @@
     </div>
     <div class="form-group">
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
-            @Html.LabelFor(model => model.TxtFile, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.TxtFile)
         </div>
         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
             @Html.TextBoxFor(model => model.TxtFile, new { type = "file", id = "fileTxt" })
@@ -39,7 +39,7 @@
     </div>
     <div class="form-group">
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-4">
-            @Html.LabelFor(model => model.PdfFile, new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.PdfFile)
         </div>
         <div class="col-lg-10 col-md-10 col-sm-8 col-xs-8">
             @Html.TextBoxFor(model => model.PdfFile, new { type = "file", id = "filePdf" })

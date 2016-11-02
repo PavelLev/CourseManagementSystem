@@ -4,25 +4,24 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Questions</h2>
-<h3>@Model.Lesson.Name</h3>
-
-<hr style="margin-bottom:0px;" />
-
 <ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
     <li>
         @Html.ActionLink("Home", "Index", "Home")
     </li>
     <li>
-        @Html.ActionLink("Course name", "Details", "Course", new {id = Model.Lesson.CourseId}, null)
+        @Html.ActionLink( Model.Lesson.Course.Name , "Details", "Course", new { id = Model.Lesson.CourseId }, null)
     </li>
     <li>
-        @Html.ActionLink("Lesson name", "Details", "Lesson", new { id = Model.Lesson.LessonID }, null)
+        @Html.ActionLink( Model.Lesson.Name , "Details", "Lesson", new { id = Model.Lesson.LessonID }, null)
     </li>
     <li class="active">Questions</li>
 </ul>
 
-<hr style="margin-top:0px;" />
+<hr />
+
+<h2>Questions</h2>
+<h3>@Model.Lesson.Name</h3>
+
 <div class="panel panel-primary" style="margin:5px;padding-left:20px;padding-right:20px;border-width:5px;">
 
     @using (Html.BeginForm("Test", "Lesson", FormMethod.Post, new { @class = "form-horizontal" }))

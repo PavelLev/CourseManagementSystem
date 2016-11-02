@@ -1,8 +1,11 @@
-﻿using System.Net;
+﻿using System.Data.Entity;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
 using CourseManagementSystem.Models;
+using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -83,36 +86,13 @@ namespace CourseManagementSystem.Controllers
             return View(model);
         }
 
-        [HttpGet]
-        public async Task<ActionResult> Delete()
+
+        public ActionResult Notifications(string id)
         {
-            var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user == null)
-                return RedirectToAction("Index", "Home");
-            if (!User.Identity.IsAuthenticated || User.Identity.GetUserId() != user.Id)
-            {
-                return RedirectToAction("Index", "Home");
-            }
-            return View();
-        }
-
-       
-        [HttpPost, ActionName("Delete")]
-        public async Task<ActionResult> DeleteConfirmed()
-        {
-            var user = await UserManager.FindByEmailAsync(User.Identity.GetUserName());
-            if (user == null)
-                return RedirectToAction("Index", "Home");
-            var result = await UserManager.DeleteAsync(user);
-
-            LogOutUserTabs();
-
-            return result.Succeeded ? RedirectToAction("LogOut", "Account") : RedirectToAction("Index","Home");
-        }
-
-        void LogOutUserTabs()
-        {
-            GlobalHost.ConnectionManager.GetHubContext<MyHub>().Clients.User(User.Identity.Name).logOut();
+            var user = db.Users.Find(id);
+            user.EmailNotifications = !user.EmailNotifications;
+            db.Entry(user).State = EntityState.Modified;
+            return PartialView("Notifications", user);
         }
 
         protected override void Dispose(bool disposing)

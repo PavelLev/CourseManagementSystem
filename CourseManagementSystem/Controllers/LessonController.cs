@@ -273,10 +273,13 @@ namespace CourseManagementSystem.Controllers
             var lesson = db.Lessons.Find(lessonId);
             var enrollment = db.Enrollments.Find(enrollmentId);
 
-            await EmailNotifications.Send(lesson.Course.User.Email, 
-                "New answers to check", 
-                enrollment.User.Name + " answered questions to lesson " + lesson.Name + " at course " + lesson.Course.Name);
-
+            if (lesson.Course.User.EmailNotifications)
+            {
+                await EmailNotifications.Send(lesson.Course.User.Email,
+                    "New answers to check",
+                    enrollment.User.Name + " answered questions to lesson " + lesson.Name + " at course " +
+                    lesson.Course.Name);
+            }
             db.SaveChanges();
             return RedirectToAction("Details", "Lesson", new {lessonId});
         }

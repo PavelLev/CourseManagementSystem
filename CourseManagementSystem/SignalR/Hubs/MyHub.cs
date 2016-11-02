@@ -14,10 +14,18 @@ namespace CourseManagementSystem
 
         public static List<string> GetConnections(string cookieValue)
         {
-            return
-                CookieConnectionses.First((cookieConnections => cookieConnections.CookieValue == cookieValue))
-                    .Connections;
+            try
+            {
+                return
+                    CookieConnectionses.First((cookieConnections => cookieConnections.CookieValue == cookieValue))
+                        .Connections;
+            }
+            catch
+            {
+                return new List<string>();
+            }
         }
+    
         public void Echo()
         {
             //		Key	"__RequestVerificationToken"	string

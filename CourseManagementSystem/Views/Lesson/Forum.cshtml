@@ -7,17 +7,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Forum</h2>
-<h3>@Model.Name</h3>
-
-<hr style="margin-bottom:0px;" />
 
 <ul class="breadcrumb" style="background-color: white; padding-bottom:0px; margin-bottom:7px;">
     <li>
         @Html.ActionLink("Home", "Index", "Home")
     </li>
     <li>
-        @Html.ActionLink(Model.Course.Name, Model.Course.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Course", new {id = Model.CourseId}, null)
+        @Html.ActionLink(Model.Course.Name, Model.Course.UserId == User.Identity.GetUserId() ? "Edit" : "Details", "Course", new { id = Model.CourseId }, null)
     </li>
     <li>
         @Html.ActionLink(Model.Name, "Details", "Lesson", new { lessonId = Model.LessonID }, null)
@@ -25,7 +21,11 @@
     <li class="active">Forum</li>
 </ul>
 
-<hr style="margin-top:0px;" />
+<hr />
+
+<h2>Forum</h2>
+<h3>@Model.Name</h3>
+
 
 @{
     Html.RenderPartial("~/Views/LessonThread/Create.cshtml", new LessonThread { LessonId = Model.LessonID });

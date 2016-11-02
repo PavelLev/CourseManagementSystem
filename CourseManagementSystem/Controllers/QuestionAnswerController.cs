@@ -20,9 +20,12 @@ namespace CourseManagementSystem.Controllers
             db.SaveChanges();
             var enrollment = db.Enrollments.Find(questionAnswer.EnrollmentID);
             var lesson = db.Lessons.Find(questionAnswer.LessonID);
-            await EmailNotifications.Send(enrollment.User.Email,
-                "New results to check",
-                "Your answers to lesson " + lesson.Name + " at course " + lesson.Course.Name + "have been checked");
+            if (enrollment.User.EmailNotifications)
+            {
+                await EmailNotifications.Send(enrollment.User.Email,
+                    "New results to check",
+                    "Your answers to lesson " + lesson.Name + " at course " + lesson.Course.Name + "have been checked");
+            }
             return new EmptyResult();
         }
 

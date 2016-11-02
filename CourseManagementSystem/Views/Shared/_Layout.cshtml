@@ -1,4 +1,5 @@
 ﻿@using System.Web.Optimization
+@using CourseManagementSystem.Models
 @using Microsoft.AspNet.Identity
 
 <!DOCTYPE html>
@@ -52,8 +53,12 @@
                                 <li>
                                     @Html.ActionLink("Edit", "Edit", "Users", new {id = User.Identity.GetUserId()}, null)
                                 </li>
-                                <li>
-                                    @Html.ActionLink("Delete", "Delete", "Users", new {id = User.Identity.GetUserId()}, null)
+                                <li id="emailNotifications">
+                                    Email notfications: @{
+                                                            var db = new AppDbContext();
+                                                            var user = db.Users.Find(User.Identity.GetUserId());
+                                                            Html.RenderPartial("~/Views/Users/Notifications.cshtml", user);
+                                                        }
                                 </li>
                                 <li class="divider"></li>
                                 <li>

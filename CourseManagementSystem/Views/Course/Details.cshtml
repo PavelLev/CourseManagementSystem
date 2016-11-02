@@ -7,6 +7,12 @@
 }
 
 
+
+<ul class="breadcrumb" style="background-color: white">
+    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+    <li class="active">@Model.Name</li>
+</ul>
+<hr />
 <div class="row">
     <div class="col-sm-8  col-xs-8">
         <h3>@Html.DisplayFor(model => model.Name)</h3>
@@ -45,32 +51,32 @@
         }
     </div>
 </div>
-<hr />
-<ul class="breadcrumb" style="background-color: white;">
-    <li>@Html.ActionLink("Home", "Index", "Home")</li>
-    <li class="active">Course name</li>
-</ul>
-@if (Model.Lessons.Count != 0)
+
+@if (Model.Enrollments.Any(enrollment => enrollment.UserId == User.Identity.GetUserId()) || Model.UserId == User.Identity.GetUserId())
 {
-    <div class="panel panel-primary" style="border-width: 5px;">
-        <div class="panel-body">
-            <div class="list-group" style="font-size: large; margin-bottom: 0;">
-                @foreach (var lesson in Model.Lessons)
-                {
-                    Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
-                }
+    if (Model.Lessons.Count != 0)
+    {
+        <div class="panel panel-primary" style="border-width: 5px;">
+            <div class="panel-body">
+                <div class="list-group" style="font-size: large; margin-bottom: 0;">
+                    @foreach (var lesson in Model.Lessons)
+                    {
+                        Html.RenderPartial("~/Views/Lesson/Bar.cshtml", lesson);
+                    }
+                </div>
             </div>
         </div>
-    </div>
-}
-else
-{
-    <div>
-        Lecturer hasn't added any material yet.
-    </div>
-    <br/>
-}
+    }
+    else
+    {
+        <div>
+            Lecturer hasn't added any material yet.
+        </div>
+        <br/>
+    }
 
-<p>
-    If you have questions that relate to the course in general and don't relate to any particular lesson, you can ask them in a <a href="@Url.Action("Forum", "Course", new {courseId = Model.CourseId})" style="font-size: large">Course forum</a>.
-</p>
+
+    <p>
+        If you have questions that relate to the course in general and don't relate to any particular lesson, you can ask them in a <a href="@Url.Action("Forum", "Course", new {courseId = Model.CourseId})" style="font-size: large">Course forum</a>.
+    </p>
+}

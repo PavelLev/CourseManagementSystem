@@ -1,0 +1,19 @@
+﻿@model CourseManagementSystem.Models.User
+@if (Model.EmailNotifications)
+{
+    @Ajax.ActionLink("Turn off", "Notifications","Users", new { id = Model.Id }, new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "emailNotifications"
+}, new { @class = "btn btn-danger" })
+
+}
+else
+{
+    @Ajax.ActionLink("Turn on", "Notifications","Users", new { id = Model.Id }, new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "emailNotifications"
+
+}, new { @class = "btn btn-success" })    
+}

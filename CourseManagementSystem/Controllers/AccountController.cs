@@ -34,8 +34,12 @@ namespace CourseManagementSystem.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(RegistrationViewModel model)
         {
+            if (Request.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             if (!ModelState.IsValid) return View("Register", model);
-            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name };
+            var user = new User { UserName = model.Email, Email = model.Email, Name = model.Name, EmailNotifications = true};
             
             var result = await UserManager.CreateAsync(user, model.Password);
             if (result.Succeeded)

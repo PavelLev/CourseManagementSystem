@@ -1,0 +1,18 @@
+﻿@model CourseManagementSystem.Models.Course
+
+@if (Model.Activated)
+{
+    @Ajax.ActionLink("Close course","Activation","Course", new {id = Model.CourseId}, new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "activationButton"
+}, new {@class="btn btn-danger", style = "margin-top:25px" })
+}
+else
+{
+    @Ajax.ActionLink("Open course", "Activation", "Course", new { id = Model.CourseId }, new AjaxOptions()
+{
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "activationButton"
+}, new { @class = "btn btn-success", style = "margin-top:25px" })
+}
