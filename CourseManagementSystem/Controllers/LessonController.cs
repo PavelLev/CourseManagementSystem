@@ -15,6 +15,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Web.WebPages;
 using CourseManagementSystem.Models;
+using MarkdownDeep;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.SignalR;
 using WebGrease.Css.Extensions;
@@ -25,6 +26,7 @@ namespace CourseManagementSystem.Controllers
     public class LessonController : Controller
     {
         private AppDbContext db = new AppDbContext();
+        private Markdown markdown = new Markdown();
 
         public ActionResult Details(int? lessonId)
         {
@@ -57,11 +59,18 @@ namespace CourseManagementSystem.Controllers
             {
                 return PartialView("~/Views/Lesson/Error.cshtml", "no files");
             }
-             if ((Request.Files["TxtFile"].ContentLength > 0 && Request.Files["TxtFile"].ContentType != "text/plain") ||
-                    (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
-                {
-                    return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
-                }
+            var fileName = Request.Files["TxtFile"].FileName;
+            string extension = "";
+            var dotIndex = fileName.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                extension = fileName.Substring(dotIndex);
+            }
+            if (Request.Files["TxtFile"].ContentLength > 0 && extension != ".txt" && extension != ".md" ||
+                (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
+            {
+                return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
+            }
 
             var lesson = new Lesson
             {
@@ -82,7 +91,7 @@ namespace CourseManagementSystem.Controllers
             {
                 using (var ms = new StreamReader(Request.Files["TxtFile"].InputStream))
                 {
-                    lesson.Text = ms.ReadToEnd();
+                    lesson.Text = extension == ".md" ? markdown.Transform(ms.ReadToEnd()) : "<label style = \"word-wrap: break-word \" >" +  ms.ReadToEnd() + "</label>";
                 }
             }
 
@@ -121,8 +130,15 @@ namespace CourseManagementSystem.Controllers
         [HttpPost]
         public ActionResult Edit()
         {
-            if ((Request.Files["TxtFile"].ContentLength > 0 && Request.Files["TxtFile"].ContentType != "text/plain") ||
-                   (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
+            var fileName = Request.Files["TxtFile"].FileName;
+            string extension = "";
+            var dotIndex = fileName.LastIndexOf('.');
+            if (dotIndex != -1)
+            {
+                extension = fileName.Substring(dotIndex);
+            }
+            if (Request.Files["TxtFile"].ContentLength > 0 && extension != ".txt" && extension != ".md" ||
+                (Request.Files["PdfFile"].ContentLength > 0 && Request.Files["PdfFile"].ContentType != "application/pdf"))
             {
                 return PartialView("~/Views/Lesson/Error.cshtml", "wrong extensions");
             }
@@ -137,7 +153,7 @@ namespace CourseManagementSystem.Controllers
             {
                 using (var ms = new StreamReader(Request.Files["TxtFile"].InputStream))
                 {
-                    lesson.Text = ms.ReadToEnd();
+                    lesson.Text = extension == ".md" ? markdown.Transform(ms.ReadToEnd()) : "<label style = \"word-wrap: break-word \" >" + ms.ReadToEnd() + "</label>";
                 }
             }
 

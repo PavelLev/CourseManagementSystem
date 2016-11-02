@@ -18,9 +18,7 @@
 <hr style="margin-top:0px;"/>
 @if (Model.Text != "")
 {
-    <label style="word-wrap: break-word ">
-        @Model.Text
-    </label>
+    @Html.Raw(Model.Text)
 }
 @if (Model.File != null)
 {
